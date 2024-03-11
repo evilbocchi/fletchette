@@ -1,0 +1,39 @@
+{
+  "name": "@rbxts/fletchette",
+  "version": "1.0.0",
+  "description": "Simple networking library for roblox-ts",
+  "main": "out/init.lua",
+  "scripts": {
+    "build": "rbxtsc",
+    "watch": "rbxtsc -w",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evilbocchi/fletchette.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "types": "out/index.d.ts",
+  "files": [
+    "out",
+    "!**/*.tsbuildinfo"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@rbxts/compiler-types": "^2.3.0-types.0",
+    "@rbxts/types": "^1.0.760",
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-roblox-ts": "^0.0.36",
+    "roblox-ts": "^2.3.0",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@rbxts/services": "^1.5.4"
+  }
+}
