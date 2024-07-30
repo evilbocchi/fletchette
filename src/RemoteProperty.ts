@@ -13,12 +13,8 @@ class RemoteProperty<T> {
         this.remoteSignal.remoteEvent.SetAttribute("RemoteProperty", true);
         this.value = initialValue;
         this.perPlayer = new Map<Player, T | undefined>();
-        this.playerRemoving = Players.PlayerRemoving.Connect((player) => {
-            this.perPlayer.set(player, undefined);
-        });
-        this.remoteSignal.connect((player, value) => {
-            this.perPlayer.set(player, value);
-        });
+        this.playerRemoving = Players.PlayerRemoving.Connect((player) => this.perPlayer.delete(player));
+        this.remoteSignal.connect((player) => this.remoteSignal.fire(player, this.getFor(player)));
     }
 
     static is<T>(obj: object | RemoteProperty<T>): obj is RemoteProperty<T> {

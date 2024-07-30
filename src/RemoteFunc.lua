@@ -1,3 +1,5 @@
+--!native
+
 local RemoteFunc = {}
 RemoteFunc.__index = RemoteFunc
 
@@ -7,7 +9,7 @@ function RemoteFunc.new()
 	return self
 end
 
-function RemoteFunc:is()
+function RemoteFunc.is(obj: any)
 	return type(obj) == "table" and getmetatable(obj) == RemoteFunc
 end
 

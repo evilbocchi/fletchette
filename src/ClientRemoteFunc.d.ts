@@ -1,5 +1,5 @@
 interface ClientRemoteFunc<T extends Callback = Callback> {
-	invoke(...args: Parameters<T>): void;
+	invoke(...args: Parameters<T>): ReturnType<T>;
 	onInvoke(handler: T): void;
 	destroy(): void;
 }

@@ -7,7 +7,7 @@ import RemoteProperty from "./RemoteProperty";
 import RemoteSignal from "./RemoteSignal";
 
 declare global {
-    interface FlechetteCanisters {}
+    interface FletchetteCanisters {}
 }
 
 type MapValueToClient<T> = T extends RemoteFunc<infer U>
@@ -29,10 +29,10 @@ namespace Fletchette {
      * @returns Folder containing all canister remote events and functions
      */
     export function getFlechetteFolder() {
-        let fletchetteFolder = ReplicatedStorage.FindFirstChild("FlechetteCanisters");
+        let fletchetteFolder = ReplicatedStorage.FindFirstChild("FletchetteCanisters");
         if (fletchetteFolder === undefined) {
             fletchetteFolder = new Instance("Folder");
-            fletchetteFolder.Name = "FlechetteCanisters";
+            fletchetteFolder.Name = "FletchetteCanisters";
             fletchetteFolder.Parent = ReplicatedStorage;
         }
         return fletchetteFolder;
@@ -87,8 +87,8 @@ namespace Fletchette {
      * @param name Name of the Canister
      * @returns Canister
      */
-    export function getCanister<T extends keyof FlechetteCanisters>(name: T): MapContainerToClient<FlechetteCanisters[T]> {
-        const canisterFolder = Fletchette.getFlechetteFolder().FindFirstChild(name);
+    export function getCanister<T extends keyof FletchetteCanisters>(name: T): MapContainerToClient<FletchetteCanisters[T]> {
+        const canisterFolder = Fletchette.getFlechetteFolder().WaitForChild(name, 10);
         if (canisterFolder === undefined)
             error("Cannot find canister " + name);
         const container: {[name: string]: ClientRemoteFunc | ClientRemoteProperty<unknown> | ClientRemoteSignal} = {};
@@ -101,7 +101,7 @@ namespace Fletchette {
                 container[n] = new ClientRemoteFunc(remote);
             }
         }
-        return container as MapContainerToClient<FlechetteCanisters[T]>;
+        return container as MapContainerToClient<FletchetteCanisters[T]>;
     }
 }
 

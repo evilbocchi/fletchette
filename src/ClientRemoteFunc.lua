@@ -1,3 +1,5 @@
+--!native
+
 local Signal = require(script.Parent.Signal)
 
 local ClientRemoteFunc = {}
@@ -16,7 +18,7 @@ function ClientRemoteFunc:onInvoke(fn: (...any) -> ())
 end
 
 function ClientRemoteFunc:invoke(...: any)
-	self._re:InvokeServer(...)
+	return self._rf:InvokeServer(...)
 end
 
 function ClientRemoteFunc:destroy()
