@@ -1,14 +1,12 @@
---!native
-
+-- Compiled with roblox-ts v2.3.0
+local TS = _G[script]
 local exports = {}
-
-exports.Fletchette = require(script.Fletchette)
-exports.RemoteFunc = require(script.RemoteFunc)
-exports.RemoteProperty = require(script.RemoteProperty)
-exports.RemoteSignal = require(script.RemoteSignal)
-exports.Signal = require(script.Signal)
-exports.ClientRemoteFunc = require(script.ClientRemoteFunc)
-exports.ClientRemoteProperty = require(script.ClientRemoteProperty)
-exports.ClientRemoteSignal = require(script.ClientRemoteSignal)
-
+exports.ClientRemoteFunc = TS.import(script, script, "ClientRemoteFunc")
+exports.ClientRemoteProperty = TS.import(script, script, "ClientRemoteProperty")
+exports.ClientRemoteSignal = TS.import(script, script, "ClientRemoteSignal")
+exports.RemoteFunc = TS.import(script, script, "RemoteFunc")
+exports.RemoteProperty = TS.import(script, script, "RemoteProperty")
+exports.RemoteSignal = TS.import(script, script, "RemoteSignal")
+exports.Signal = TS.import(script, script, "Signal")
+exports.Fletchette = TS.import(script, script, "Fletchette")
 return exports
