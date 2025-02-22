@@ -1,19 +1,21 @@
 {
   "name": "@antivivi/fletchette",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Simple networking library for roblox-ts",
   "main": "out/init.lua",
   "scripts": {
     "build": "rbxtsc",
     "watch": "rbxtsc -w",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "pub": "npm run build & npm publish"
+
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/evilbocchi/fletchette.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "evilbocchi",
   "license": "ISC",
   "types": "out/index.d.ts",
   "files": [
@@ -34,6 +36,9 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
+    "@antivivi/lemon-signal": "^1.2.4",
+    "@flamework/core": "^1.2.4",
+    "@rbxts/flamework-binary-serializer": "^0.6.0",
     "@rbxts/services": "^1.5.4"
   }
 }
