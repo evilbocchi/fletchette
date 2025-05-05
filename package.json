@@ -1,44 +1,48 @@
 {
-  "name": "@antivivi/fletchette",
-  "version": "2.0.1",
-  "description": "Simple networking library for roblox-ts",
-  "main": "out/init.lua",
-  "scripts": {
-    "build": "rbxtsc",
-    "watch": "rbxtsc -w",
-    "prepublishOnly": "npm run build",
-    "pub": "npm run build & npm publish"
-
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/evilbocchi/fletchette.git"
-  },
-  "keywords": [],
-  "author": "evilbocchi",
-  "license": "ISC",
-  "types": "out/index.d.ts",
-  "files": [
-    "out",
-    "!**/*.tsbuildinfo"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "devDependencies": {
-    "@rbxts/compiler-types": "^2.3.0-types.0",
-    "@rbxts/types": "^1.0.760",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
-    "@typescript-eslint/parser": "^7.1.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-roblox-ts": "^0.0.36",
-    "roblox-ts": "^2.3.0",
-    "typescript": "^5.4.2"
-  },
-  "dependencies": {
-    "@antivivi/lemon-signal": "^1.2.4",
-    "@flamework/core": "^1.2.4",
-    "@rbxts/flamework-binary-serializer": "^0.6.0",
-    "@rbxts/services": "^1.5.4"
-  }
+    "name": "@antivivi/fletchette",
+    "version": "2.0.2",
+    "description": "Simple networking library for roblox-ts.",
+    "main": "out/init.lua",
+    "scripts": {
+        "build": "rbxtsc",
+        "watch": "rbxtsc -w",
+        "docs": "npx typedoc",
+        "prepublishOnly": "npm run build & npm run docs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/evilbocchi/fletchette.git"
+    },
+    "keywords": [],
+    "author": "evilbocchi",
+    "license": "ISC",
+    "types": "out/index.d.ts",
+    "files": [
+        "out",
+        "!**/*.tsbuildinfo"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@rbxts/compiler-types": "^2.3.0-types.0",
+        "@rbxts/types": "^1.0.760",
+        "@typescript-eslint/eslint-plugin": "^7.1.1",
+        "@typescript-eslint/parser": "^7.1.1",
+        "eslint": "^8.57.0",
+        "eslint-plugin-roblox-ts": "^0.0.36",
+        "roblox-ts": "^2.3.0",
+        "typescript": "^5.4.2",
+        "typedoc": "^0.26.5",
+        "typedoc-material-theme": "^1.1.0",
+        "typedoc-plugin-extras": "^3.1.0",
+        "typedoc-plugin-missing-exports": "^3.0.0",
+        "typedoc-plugin-rename-defaults": "^0.7.1"
+    },
+    "dependencies": {
+        "@antivivi/lemon-signal": "^1.2.4",
+        "@flamework/core": "^1.2.4",
+        "@rbxts/flamework-binary-serializer": "^0.6.0",
+        "@rbxts/services": "^1.5.4"
+    }
 }

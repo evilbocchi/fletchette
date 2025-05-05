@@ -1,0 +1,684 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>KeyCode | @antivivi/fletchette</title><meta name="description" content="A type-safe networking library for roblox-ts that simplifies client-server communication."/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-sys-color-primary: #ffb963;
+    --md-sys-color-on-primary: #472a00;
+    --md-sys-color-primary-container: #663e00;
+    --md-sys-color-on-primary-container: #ffddb9;
+    --md-sys-color-secondary: #dfc1a2;
+    --md-sys-color-on-secondary: #3f2d17;
+    --md-sys-color-secondary-container: #58432b;
+    --md-sys-color-on-secondary-container: #fdddbd;
+    --md-sys-color-tertiary: #bccd9d;
+    --md-sys-color-on-tertiary: #283512;
+    --md-sys-color-tertiary-container: #3e4b27;
+    --md-sys-color-on-tertiary-container: #d8e9b8;
+    --md-sys-color-error: #ffb4ab;
+    --md-sys-color-on-error: #690005;
+    --md-sys-color-error-container: #93000a;
+    --md-sys-color-on-error-container: #ffb4ab;
+    --md-sys-color-background: #1f1b16;
+    --md-sys-color-on-background: #ebe1d9;
+    --md-sys-color-surface: #1f1b16;
+    --md-sys-color-on-surface: #ebe1d9;
+    --md-sys-color-surface-variant: #504539;
+    --md-sys-color-on-surface-variant: #d4c4b5;
+    --md-sys-color-outline: #9d8e81;
+    --md-sys-color-outline-variant: #504539;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #ebe1d9;
+    --md-sys-color-inverse-on-surface: #352f2a;
+    --md-sys-color-inverse-primary: #865300;
+    --md-sys-color-surface-dim: #17130e;
+    --md-sys-color-surface-bright: #3e3833;
+    --md-sys-color-surface-container-lowest: #110d09;
+    --md-sys-color-surface-container-low: #1f1b16;
+    --md-sys-color-surface-container: #231f1a;
+    --md-sys-color-surface-container-high: #2e2924;
+    --md-sys-color-surface-container-highest: #39342f
+  }
+}
+:root[data-theme="dark"] {
+  --md-sys-color-primary: #ffb963;
+  --md-sys-color-on-primary: #472a00;
+  --md-sys-color-primary-container: #663e00;
+  --md-sys-color-on-primary-container: #ffddb9;
+  --md-sys-color-secondary: #dfc1a2;
+  --md-sys-color-on-secondary: #3f2d17;
+  --md-sys-color-secondary-container: #58432b;
+  --md-sys-color-on-secondary-container: #fdddbd;
+  --md-sys-color-tertiary: #bccd9d;
+  --md-sys-color-on-tertiary: #283512;
+  --md-sys-color-tertiary-container: #3e4b27;
+  --md-sys-color-on-tertiary-container: #d8e9b8;
+  --md-sys-color-error: #ffb4ab;
+  --md-sys-color-on-error: #690005;
+  --md-sys-color-error-container: #93000a;
+  --md-sys-color-on-error-container: #ffb4ab;
+  --md-sys-color-background: #1f1b16;
+  --md-sys-color-on-background: #ebe1d9;
+  --md-sys-color-surface: #1f1b16;
+  --md-sys-color-on-surface: #ebe1d9;
+  --md-sys-color-surface-variant: #504539;
+  --md-sys-color-on-surface-variant: #d4c4b5;
+  --md-sys-color-outline: #9d8e81;
+  --md-sys-color-outline-variant: #504539;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #ebe1d9;
+  --md-sys-color-inverse-on-surface: #352f2a;
+  --md-sys-color-inverse-primary: #865300;
+  --md-sys-color-surface-dim: #17130e;
+  --md-sys-color-surface-bright: #3e3833;
+  --md-sys-color-surface-container-lowest: #110d09;
+  --md-sys-color-surface-container-low: #1f1b16;
+  --md-sys-color-surface-container: #231f1a;
+  --md-sys-color-surface-container-high: #2e2924;
+  --md-sys-color-surface-container-highest: #39342f
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --md-sys-color-primary: #865300;
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #ffddb9;
+    --md-sys-color-on-primary-container: #2b1700;
+    --md-sys-color-secondary: #715a41;
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-secondary-container: #fdddbd;
+    --md-sys-color-on-secondary-container: #281805;
+    --md-sys-color-tertiary: #55633c;
+    --md-sys-color-on-tertiary: #ffffff;
+    --md-sys-color-tertiary-container: #d8e9b8;
+    --md-sys-color-on-tertiary-container: #131f02;
+    --md-sys-color-error: #ba1a1a;
+    --md-sys-color-on-error: #ffffff;
+    --md-sys-color-error-container: #ffdad6;
+    --md-sys-color-on-error-container: #410002;
+    --md-sys-color-background: #fffbff;
+    --md-sys-color-on-background: #1f1b16;
+    --md-sys-color-surface: #fffbff;
+    --md-sys-color-on-surface: #1f1b16;
+    --md-sys-color-surface-variant: #f1e0d0;
+    --md-sys-color-on-surface-variant: #504539;
+    --md-sys-color-outline: #827568;
+    --md-sys-color-outline-variant: #d4c4b5;
+    --md-sys-color-shadow: #000000;
+    --md-sys-color-scrim: #000000;
+    --md-sys-color-inverse-surface: #352f2a;
+    --md-sys-color-inverse-on-surface: #f9efe7;
+    --md-sys-color-inverse-primary: #ffb963;
+    --md-sys-color-surface-dim: #e2d8d1;
+    --md-sys-color-surface-bright: #fff8f4;
+    --md-sys-color-surface-container-lowest: #ffffff;
+    --md-sys-color-surface-container-low: #fcf2ea;
+    --md-sys-color-surface-container: #f7ece4;
+    --md-sys-color-surface-container-high: #f1e6df;
+    --md-sys-color-surface-container-highest: #ebe1d9
+  }
+}
+:root[data-theme="light"] {
+  --md-sys-color-primary: #865300;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #ffddb9;
+  --md-sys-color-on-primary-container: #2b1700;
+  --md-sys-color-secondary: #715a41;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #fdddbd;
+  --md-sys-color-on-secondary-container: #281805;
+  --md-sys-color-tertiary: #55633c;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #d8e9b8;
+  --md-sys-color-on-tertiary-container: #131f02;
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+  --md-sys-color-background: #fffbff;
+  --md-sys-color-on-background: #1f1b16;
+  --md-sys-color-surface: #fffbff;
+  --md-sys-color-on-surface: #1f1b16;
+  --md-sys-color-surface-variant: #f1e0d0;
+  --md-sys-color-on-surface-variant: #504539;
+  --md-sys-color-outline: #827568;
+  --md-sys-color-outline-variant: #d4c4b5;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #352f2a;
+  --md-sys-color-inverse-on-surface: #f9efe7;
+  --md-sys-color-inverse-primary: #ffb963;
+  --md-sys-color-surface-dim: #e2d8d1;
+  --md-sys-color-surface-bright: #fff8f4;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #fcf2ea;
+  --md-sys-color-surface-container: #f7ece4;
+  --md-sys-color-surface-container-high: #f1e6df;
+  --md-sys-color-surface-container-highest: #ebe1d9
+}
+</style><link rel="stylesheet" href="../assets/material-style.css"/><link rel="icon" href="../icon.jpg" />
+</head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search" data-base=".."><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">@antivivi/fletchette</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">@antivivi/fletchette</a></li><li><a href="Enum.html">Enum</a></li><li><a href="Enum.KeyCode.html">KeyCode</a></li></ul><h1>Namespace KeyCode</h1></div><aside class="tsd-sources"><ul><li>Defined in node_modules/@rbxts/types/include/generated/enums.d.ts:9215</li><li>Defined in node_modules/@rbxts/types/include/generated/enums.d.ts:11250</li></ul></aside><section class="tsd-panel-group tsd-index-group"><section class="tsd-panel tsd-index-panel"><h3 class="tsd-index-heading uppercase">Index</h3><section class="tsd-index-section"><h3 class="tsd-index-heading">Interfaces</h3><div class="tsd-index-list"><a href="../interfaces/Enum.KeyCode.A.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>A</span></a>
+<a href="../interfaces/Enum.KeyCode.Ampersand.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Ampersand</span></a>
+<a href="../interfaces/Enum.KeyCode.Asterisk.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Asterisk</span></a>
+<a href="../interfaces/Enum.KeyCode.At.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>At</span></a>
+<a href="../interfaces/Enum.KeyCode.B.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>B</span></a>
+<a href="../interfaces/Enum.KeyCode.Backquote.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Backquote</span></a>
+<a href="../interfaces/Enum.KeyCode.BackSlash.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Back<wbr/>Slash</span></a>
+<a href="../interfaces/Enum.KeyCode.Backspace.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Backspace</span></a>
+<a href="../interfaces/Enum.KeyCode.Break.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Break</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonA.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>ButtonA</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonB.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>ButtonB</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonL1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>L1</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonL2.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>L2</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonL3.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>L3</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonR1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>R1</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonR2.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>R2</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonR3.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>R3</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonSelect.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>Select</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonStart.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Button<wbr/>Start</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonX.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>ButtonX</span></a>
+<a href="../interfaces/Enum.KeyCode.ButtonY.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>ButtonY</span></a>
+<a href="../interfaces/Enum.KeyCode.C.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>C</span></a>
+<a href="../interfaces/Enum.KeyCode.CapsLock.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Caps<wbr/>Lock</span></a>
+<a href="../interfaces/Enum.KeyCode.Caret.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Caret</span></a>
+<a href="../interfaces/Enum.KeyCode.Clear.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Clear</span></a>
+<a href="../interfaces/Enum.KeyCode.Colon.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Colon</span></a>
+<a href="../interfaces/Enum.KeyCode.Comma.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Comma</span></a>
+<a href="../interfaces/Enum.KeyCode.Compose.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Compose</span></a>
+<a href="../interfaces/Enum.KeyCode.D.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>D</span></a>
+<a href="../interfaces/Enum.KeyCode.Delete.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Delete</span></a>
+<a href="../interfaces/Enum.KeyCode.Dollar.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Dollar</span></a>
+<a href="../interfaces/Enum.KeyCode.Down.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Down</span></a>
+<a href="../interfaces/Enum.KeyCode.DPadDown.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>DPad<wbr/>Down</span></a>
+<a href="../interfaces/Enum.KeyCode.DPadLeft.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>DPad<wbr/>Left</span></a>
+<a href="../interfaces/Enum.KeyCode.DPadRight.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>DPad<wbr/>Right</span></a>
+<a href="../interfaces/Enum.KeyCode.DPadUp.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>DPad<wbr/>Up</span></a>
+<a href="../interfaces/Enum.KeyCode.E.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>E</span></a>
+<a href="../interfaces/Enum.KeyCode.Eight.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Eight</span></a>
+<a href="../interfaces/Enum.KeyCode.End.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>End</span></a>
+<a href="../interfaces/Enum.KeyCode.Equals.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Equals</span></a>
+<a href="../interfaces/Enum.KeyCode.Escape.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Escape</span></a>
+<a href="../interfaces/Enum.KeyCode.Euro.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Euro</span></a>
+<a href="../interfaces/Enum.KeyCode.F.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F</span></a>
+<a href="../interfaces/Enum.KeyCode.F1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F1</span></a>
+<a href="../interfaces/Enum.KeyCode.F10.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F10</span></a>
+<a href="../interfaces/Enum.KeyCode.F11.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F11</span></a>
+<a href="../interfaces/Enum.KeyCode.F12.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F12</span></a>
+<a href="../interfaces/Enum.KeyCode.F13.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F13</span></a>
+<a href="../interfaces/Enum.KeyCode.F14.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F14</span></a>
+<a href="../interfaces/Enum.KeyCode.F15.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F15</span></a>
+<a href="../interfaces/Enum.KeyCode.F2.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F2</span></a>
+<a href="../interfaces/Enum.KeyCode.F3.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F3</span></a>
+<a href="../interfaces/Enum.KeyCode.F4.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F4</span></a>
+<a href="../interfaces/Enum.KeyCode.F5.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F5</span></a>
+<a href="../interfaces/Enum.KeyCode.F6.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F6</span></a>
+<a href="../interfaces/Enum.KeyCode.F7.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F7</span></a>
+<a href="../interfaces/Enum.KeyCode.F8.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F8</span></a>
+<a href="../interfaces/Enum.KeyCode.F9.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>F9</span></a>
+<a href="../interfaces/Enum.KeyCode.Five.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Five</span></a>
+<a href="../interfaces/Enum.KeyCode.Four.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Four</span></a>
+<a href="../interfaces/Enum.KeyCode.G.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>G</span></a>
+<a href="../interfaces/Enum.KeyCode.GreaterThan.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Greater<wbr/>Than</span></a>
+<a href="../interfaces/Enum.KeyCode.H.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>H</span></a>
+<a href="../interfaces/Enum.KeyCode.Hash.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Hash</span></a>
+<a href="../interfaces/Enum.KeyCode.Help.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Help</span></a>
+<a href="../interfaces/Enum.KeyCode.Home.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Home</span></a>
+<a href="../interfaces/Enum.KeyCode.I.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>I</span></a>
+<a href="../interfaces/Enum.KeyCode.Insert.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Insert</span></a>
+<a href="../interfaces/Enum.KeyCode.J.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>J</span></a>
+<a href="../interfaces/Enum.KeyCode.K.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>K</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadDivide.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Divide</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadEight.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Eight</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadEnter.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Enter</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadEquals.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Equals</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadFive.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Five</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadFour.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Four</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadMinus.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Minus</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadMultiply.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Multiply</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadNine.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Nine</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadOne.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>One</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadPeriod.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Period</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadPlus.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Plus</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadSeven.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Seven</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadSix.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Six</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadThree.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Three</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadTwo.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Two</span></a>
+<a href="../interfaces/Enum.KeyCode.KeypadZero.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Keypad<wbr/>Zero</span></a>
+<a href="../interfaces/Enum.KeyCode.L.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>L</span></a>
+<a href="../interfaces/Enum.KeyCode.Left.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftAlt.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Alt</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftBracket.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Bracket</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftControl.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Control</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftCurly.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Curly</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftMeta.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Meta</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftParenthesis.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Parenthesis</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftShift.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Shift</span></a>
+<a href="../interfaces/Enum.KeyCode.LeftSuper.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Left<wbr/>Super</span></a>
+<a href="../interfaces/Enum.KeyCode.LessThan.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Less<wbr/>Than</span></a>
+<a href="../interfaces/Enum.KeyCode.M.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>M</span></a>
+<a href="../interfaces/Enum.KeyCode.Menu.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Menu</span></a>
+<a href="../interfaces/Enum.KeyCode.Minus.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Minus</span></a>
+<a href="../interfaces/Enum.KeyCode.Mode.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Mode</span></a>
+<a href="../interfaces/Enum.KeyCode.N.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>N</span></a>
+<a href="../interfaces/Enum.KeyCode.Nine.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Nine</span></a>
+<a href="../interfaces/Enum.KeyCode.NumLock.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Num<wbr/>Lock</span></a>
+<a href="../interfaces/Enum.KeyCode.O.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>O</span></a>
+<a href="../interfaces/Enum.KeyCode.One.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>One</span></a>
+<a href="../interfaces/Enum.KeyCode.P.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>P</span></a>
+<a href="../interfaces/Enum.KeyCode.PageDown.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Page<wbr/>Down</span></a>
+<a href="../interfaces/Enum.KeyCode.PageUp.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Page<wbr/>Up</span></a>
+<a href="../interfaces/Enum.KeyCode.Pause.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Pause</span></a>
+<a href="../interfaces/Enum.KeyCode.Percent.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Percent</span></a>
+<a href="../interfaces/Enum.KeyCode.Period.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Period</span></a>
+<a href="../interfaces/Enum.KeyCode.Pipe.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Pipe</span></a>
+<a href="../interfaces/Enum.KeyCode.Plus.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Plus</span></a>
+<a href="../interfaces/Enum.KeyCode.Power.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Power</span></a>
+<a href="../interfaces/Enum.KeyCode.Print.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Print</span></a>
+<a href="../interfaces/Enum.KeyCode.Q.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Q</span></a>
+<a href="../interfaces/Enum.KeyCode.Question.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Question</span></a>
+<a href="../interfaces/Enum.KeyCode.Quote.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Quote</span></a>
+<a href="../interfaces/Enum.KeyCode.QuotedDouble.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Quoted<wbr/>Double</span></a>
+<a href="../interfaces/Enum.KeyCode.R.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>R</span></a>
+<a href="../interfaces/Enum.KeyCode.Return.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Return</span></a>
+<a href="../interfaces/Enum.KeyCode.Right.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right</span></a>
+<a href="../interfaces/Enum.KeyCode.RightAlt.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Alt</span></a>
+<a href="../interfaces/Enum.KeyCode.RightBracket.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Bracket</span></a>
+<a href="../interfaces/Enum.KeyCode.RightControl.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Control</span></a>
+<a href="../interfaces/Enum.KeyCode.RightCurly.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Curly</span></a>
+<a href="../interfaces/Enum.KeyCode.RightMeta.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Meta</span></a>
+<a href="../interfaces/Enum.KeyCode.RightParenthesis.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Parenthesis</span></a>
+<a href="../interfaces/Enum.KeyCode.RightShift.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Shift</span></a>
+<a href="../interfaces/Enum.KeyCode.RightSuper.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Right<wbr/>Super</span></a>
+<a href="../interfaces/Enum.KeyCode.S.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>S</span></a>
+<a href="../interfaces/Enum.KeyCode.ScrollLock.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Scroll<wbr/>Lock</span></a>
+<a href="../interfaces/Enum.KeyCode.Semicolon.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Semicolon</span></a>
+<a href="../interfaces/Enum.KeyCode.Seven.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Seven</span></a>
+<a href="../interfaces/Enum.KeyCode.Six.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Six</span></a>
+<a href="../interfaces/Enum.KeyCode.Slash.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Slash</span></a>
+<a href="../interfaces/Enum.KeyCode.Space.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Space</span></a>
+<a href="../interfaces/Enum.KeyCode.SysReq.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Sys<wbr/>Req</span></a>
+<a href="../interfaces/Enum.KeyCode.T.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>T</span></a>
+<a href="../interfaces/Enum.KeyCode.Tab.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Tab</span></a>
+<a href="../interfaces/Enum.KeyCode.Three.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Three</span></a>
+<a href="../interfaces/Enum.KeyCode.Thumbstick1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Thumbstick1</span></a>
+<a href="../interfaces/Enum.KeyCode.Thumbstick2.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Thumbstick2</span></a>
+<a href="../interfaces/Enum.KeyCode.Tilde.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Tilde</span></a>
+<a href="../interfaces/Enum.KeyCode.Two.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Two</span></a>
+<a href="../interfaces/Enum.KeyCode.U.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>U</span></a>
+<a href="../interfaces/Enum.KeyCode.Underscore.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Underscore</span></a>
+<a href="../interfaces/Enum.KeyCode.Undo.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Undo</span></a>
+<a href="../interfaces/Enum.KeyCode.Unknown.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Unknown</span></a>
+<a href="../interfaces/Enum.KeyCode.Up.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Up</span></a>
+<a href="../interfaces/Enum.KeyCode.V.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>V</span></a>
+<a href="../interfaces/Enum.KeyCode.W.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>W</span></a>
+<a href="../interfaces/Enum.KeyCode.World0.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World0</span></a>
+<a href="../interfaces/Enum.KeyCode.World1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World1</span></a>
+<a href="../interfaces/Enum.KeyCode.World10.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World10</span></a>
+<a href="../interfaces/Enum.KeyCode.World11.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World11</span></a>
+<a href="../interfaces/Enum.KeyCode.World12.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World12</span></a>
+<a href="../interfaces/Enum.KeyCode.World13.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World13</span></a>
+<a href="../interfaces/Enum.KeyCode.World14.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World14</span></a>
+<a href="../interfaces/Enum.KeyCode.World15.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World15</span></a>
+<a href="../interfaces/Enum.KeyCode.World16.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World16</span></a>
+<a href="../interfaces/Enum.KeyCode.World17.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World17</span></a>
+<a href="../interfaces/Enum.KeyCode.World18.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World18</span></a>
+<a href="../interfaces/Enum.KeyCode.World19.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World19</span></a>
+<a href="../interfaces/Enum.KeyCode.World2.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World2</span></a>
+<a href="../interfaces/Enum.KeyCode.World20.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World20</span></a>
+<a href="../interfaces/Enum.KeyCode.World21.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World21</span></a>
+<a href="../interfaces/Enum.KeyCode.World22.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World22</span></a>
+<a href="../interfaces/Enum.KeyCode.World23.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World23</span></a>
+<a href="../interfaces/Enum.KeyCode.World24.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World24</span></a>
+<a href="../interfaces/Enum.KeyCode.World25.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World25</span></a>
+<a href="../interfaces/Enum.KeyCode.World26.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World26</span></a>
+<a href="../interfaces/Enum.KeyCode.World27.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World27</span></a>
+<a href="../interfaces/Enum.KeyCode.World28.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World28</span></a>
+<a href="../interfaces/Enum.KeyCode.World29.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World29</span></a>
+<a href="../interfaces/Enum.KeyCode.World3.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World3</span></a>
+<a href="../interfaces/Enum.KeyCode.World30.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World30</span></a>
+<a href="../interfaces/Enum.KeyCode.World31.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World31</span></a>
+<a href="../interfaces/Enum.KeyCode.World32.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World32</span></a>
+<a href="../interfaces/Enum.KeyCode.World33.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World33</span></a>
+<a href="../interfaces/Enum.KeyCode.World34.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World34</span></a>
+<a href="../interfaces/Enum.KeyCode.World35.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World35</span></a>
+<a href="../interfaces/Enum.KeyCode.World36.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World36</span></a>
+<a href="../interfaces/Enum.KeyCode.World37.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World37</span></a>
+<a href="../interfaces/Enum.KeyCode.World38.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World38</span></a>
+<a href="../interfaces/Enum.KeyCode.World39.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World39</span></a>
+<a href="../interfaces/Enum.KeyCode.World4.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World4</span></a>
+<a href="../interfaces/Enum.KeyCode.World40.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World40</span></a>
+<a href="../interfaces/Enum.KeyCode.World41.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World41</span></a>
+<a href="../interfaces/Enum.KeyCode.World42.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World42</span></a>
+<a href="../interfaces/Enum.KeyCode.World43.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World43</span></a>
+<a href="../interfaces/Enum.KeyCode.World44.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World44</span></a>
+<a href="../interfaces/Enum.KeyCode.World45.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World45</span></a>
+<a href="../interfaces/Enum.KeyCode.World46.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World46</span></a>
+<a href="../interfaces/Enum.KeyCode.World47.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World47</span></a>
+<a href="../interfaces/Enum.KeyCode.World48.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World48</span></a>
+<a href="../interfaces/Enum.KeyCode.World49.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World49</span></a>
+<a href="../interfaces/Enum.KeyCode.World5.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World5</span></a>
+<a href="../interfaces/Enum.KeyCode.World50.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World50</span></a>
+<a href="../interfaces/Enum.KeyCode.World51.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World51</span></a>
+<a href="../interfaces/Enum.KeyCode.World52.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World52</span></a>
+<a href="../interfaces/Enum.KeyCode.World53.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World53</span></a>
+<a href="../interfaces/Enum.KeyCode.World54.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World54</span></a>
+<a href="../interfaces/Enum.KeyCode.World55.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World55</span></a>
+<a href="../interfaces/Enum.KeyCode.World56.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World56</span></a>
+<a href="../interfaces/Enum.KeyCode.World57.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World57</span></a>
+<a href="../interfaces/Enum.KeyCode.World58.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World58</span></a>
+<a href="../interfaces/Enum.KeyCode.World59.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World59</span></a>
+<a href="../interfaces/Enum.KeyCode.World6.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World6</span></a>
+<a href="../interfaces/Enum.KeyCode.World60.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World60</span></a>
+<a href="../interfaces/Enum.KeyCode.World61.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World61</span></a>
+<a href="../interfaces/Enum.KeyCode.World62.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World62</span></a>
+<a href="../interfaces/Enum.KeyCode.World63.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World63</span></a>
+<a href="../interfaces/Enum.KeyCode.World64.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World64</span></a>
+<a href="../interfaces/Enum.KeyCode.World65.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World65</span></a>
+<a href="../interfaces/Enum.KeyCode.World66.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World66</span></a>
+<a href="../interfaces/Enum.KeyCode.World67.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World67</span></a>
+<a href="../interfaces/Enum.KeyCode.World68.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World68</span></a>
+<a href="../interfaces/Enum.KeyCode.World69.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World69</span></a>
+<a href="../interfaces/Enum.KeyCode.World7.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World7</span></a>
+<a href="../interfaces/Enum.KeyCode.World70.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World70</span></a>
+<a href="../interfaces/Enum.KeyCode.World71.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World71</span></a>
+<a href="../interfaces/Enum.KeyCode.World72.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World72</span></a>
+<a href="../interfaces/Enum.KeyCode.World73.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World73</span></a>
+<a href="../interfaces/Enum.KeyCode.World74.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World74</span></a>
+<a href="../interfaces/Enum.KeyCode.World75.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World75</span></a>
+<a href="../interfaces/Enum.KeyCode.World76.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World76</span></a>
+<a href="../interfaces/Enum.KeyCode.World77.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World77</span></a>
+<a href="../interfaces/Enum.KeyCode.World78.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World78</span></a>
+<a href="../interfaces/Enum.KeyCode.World79.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World79</span></a>
+<a href="../interfaces/Enum.KeyCode.World8.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World8</span></a>
+<a href="../interfaces/Enum.KeyCode.World80.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World80</span></a>
+<a href="../interfaces/Enum.KeyCode.World81.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World81</span></a>
+<a href="../interfaces/Enum.KeyCode.World82.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World82</span></a>
+<a href="../interfaces/Enum.KeyCode.World83.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World83</span></a>
+<a href="../interfaces/Enum.KeyCode.World84.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World84</span></a>
+<a href="../interfaces/Enum.KeyCode.World85.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World85</span></a>
+<a href="../interfaces/Enum.KeyCode.World86.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World86</span></a>
+<a href="../interfaces/Enum.KeyCode.World87.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World87</span></a>
+<a href="../interfaces/Enum.KeyCode.World88.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World88</span></a>
+<a href="../interfaces/Enum.KeyCode.World89.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World89</span></a>
+<a href="../interfaces/Enum.KeyCode.World9.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World9</span></a>
+<a href="../interfaces/Enum.KeyCode.World90.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World90</span></a>
+<a href="../interfaces/Enum.KeyCode.World91.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World91</span></a>
+<a href="../interfaces/Enum.KeyCode.World92.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World92</span></a>
+<a href="../interfaces/Enum.KeyCode.World93.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World93</span></a>
+<a href="../interfaces/Enum.KeyCode.World94.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World94</span></a>
+<a href="../interfaces/Enum.KeyCode.World95.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>World95</span></a>
+<a href="../interfaces/Enum.KeyCode.X.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>X</span></a>
+<a href="../interfaces/Enum.KeyCode.Y.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Y</span></a>
+<a href="../interfaces/Enum.KeyCode.Z.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Z</span></a>
+<a href="../interfaces/Enum.KeyCode.Zero.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-256"></use></svg><span>Zero</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Variables</h3><div class="tsd-index-list"><a href="../variables/Enum.KeyCode.A-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>A</span></a>
+<a href="../variables/Enum.KeyCode.Ampersand-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Ampersand</span></a>
+<a href="../variables/Enum.KeyCode.Asterisk-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Asterisk</span></a>
+<a href="../variables/Enum.KeyCode.At-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>At</span></a>
+<a href="../variables/Enum.KeyCode.B-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>B</span></a>
+<a href="../variables/Enum.KeyCode.Backquote-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Backquote</span></a>
+<a href="../variables/Enum.KeyCode.BackSlash-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Back<wbr/>Slash</span></a>
+<a href="../variables/Enum.KeyCode.Backspace-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Backspace</span></a>
+<a href="../variables/Enum.KeyCode.Break-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Break</span></a>
+<a href="../variables/Enum.KeyCode.ButtonA-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>ButtonA</span></a>
+<a href="../variables/Enum.KeyCode.ButtonB-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>ButtonB</span></a>
+<a href="../variables/Enum.KeyCode.ButtonL1-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>L1</span></a>
+<a href="../variables/Enum.KeyCode.ButtonL2-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>L2</span></a>
+<a href="../variables/Enum.KeyCode.ButtonL3-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>L3</span></a>
+<a href="../variables/Enum.KeyCode.ButtonR1-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>R1</span></a>
+<a href="../variables/Enum.KeyCode.ButtonR2-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>R2</span></a>
+<a href="../variables/Enum.KeyCode.ButtonR3-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>R3</span></a>
+<a href="../variables/Enum.KeyCode.ButtonSelect-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>Select</span></a>
+<a href="../variables/Enum.KeyCode.ButtonStart-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Button<wbr/>Start</span></a>
+<a href="../variables/Enum.KeyCode.ButtonX-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>ButtonX</span></a>
+<a href="../variables/Enum.KeyCode.ButtonY-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>ButtonY</span></a>
+<a href="../variables/Enum.KeyCode.C-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>C</span></a>
+<a href="../variables/Enum.KeyCode.CapsLock-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Caps<wbr/>Lock</span></a>
+<a href="../variables/Enum.KeyCode.Caret-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Caret</span></a>
+<a href="../variables/Enum.KeyCode.Clear-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Clear</span></a>
+<a href="../variables/Enum.KeyCode.Colon-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Colon</span></a>
+<a href="../variables/Enum.KeyCode.Comma-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Comma</span></a>
+<a href="../variables/Enum.KeyCode.Compose-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Compose</span></a>
+<a href="../variables/Enum.KeyCode.D-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>D</span></a>
+<a href="../variables/Enum.KeyCode.Delete-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Delete</span></a>
+<a href="../variables/Enum.KeyCode.Dollar-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Dollar</span></a>
+<a href="../variables/Enum.KeyCode.Down-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Down</span></a>
+<a href="../variables/Enum.KeyCode.DPadDown-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>DPad<wbr/>Down</span></a>
+<a href="../variables/Enum.KeyCode.DPadLeft-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>DPad<wbr/>Left</span></a>
+<a href="../variables/Enum.KeyCode.DPadRight-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>DPad<wbr/>Right</span></a>
+<a href="../variables/Enum.KeyCode.DPadUp-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>DPad<wbr/>Up</span></a>
+<a href="../variables/Enum.KeyCode.E-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>E</span></a>
+<a href="../variables/Enum.KeyCode.Eight-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Eight</span></a>
+<a href="../variables/Enum.KeyCode.End-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>End</span></a>
+<a href="../variables/Enum.KeyCode.Equals-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Equals</span></a>
+<a href="../variables/Enum.KeyCode.Escape-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Escape</span></a>
+<a href="../variables/Enum.KeyCode.Euro-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Euro</span></a>
+<a href="../variables/Enum.KeyCode.F-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F</span></a>
+<a href="../variables/Enum.KeyCode.F1-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F1</span></a>
+<a href="../variables/Enum.KeyCode.F10-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F10</span></a>
+<a href="../variables/Enum.KeyCode.F11-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F11</span></a>
+<a href="../variables/Enum.KeyCode.F12-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F12</span></a>
+<a href="../variables/Enum.KeyCode.F13-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F13</span></a>
+<a href="../variables/Enum.KeyCode.F14-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F14</span></a>
+<a href="../variables/Enum.KeyCode.F15-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F15</span></a>
+<a href="../variables/Enum.KeyCode.F2-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F2</span></a>
+<a href="../variables/Enum.KeyCode.F3-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F3</span></a>
+<a href="../variables/Enum.KeyCode.F4-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F4</span></a>
+<a href="../variables/Enum.KeyCode.F5-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F5</span></a>
+<a href="../variables/Enum.KeyCode.F6-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F6</span></a>
+<a href="../variables/Enum.KeyCode.F7-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F7</span></a>
+<a href="../variables/Enum.KeyCode.F8-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F8</span></a>
+<a href="../variables/Enum.KeyCode.F9-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>F9</span></a>
+<a href="../variables/Enum.KeyCode.Five-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Five</span></a>
+<a href="../variables/Enum.KeyCode.Four-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Four</span></a>
+<a href="../variables/Enum.KeyCode.G-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>G</span></a>
+<a href="../variables/Enum.KeyCode.GreaterThan-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Greater<wbr/>Than</span></a>
+<a href="../variables/Enum.KeyCode.H-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>H</span></a>
+<a href="../variables/Enum.KeyCode.Hash-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Hash</span></a>
+<a href="../variables/Enum.KeyCode.Help-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Help</span></a>
+<a href="../variables/Enum.KeyCode.Home-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Home</span></a>
+<a href="../variables/Enum.KeyCode.I-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>I</span></a>
+<a href="../variables/Enum.KeyCode.Insert-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Insert</span></a>
+<a href="../variables/Enum.KeyCode.J-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>J</span></a>
+<a href="../variables/Enum.KeyCode.K-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>K</span></a>
+<a href="../variables/Enum.KeyCode.KeypadDivide-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Divide</span></a>
+<a href="../variables/Enum.KeyCode.KeypadEight-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Eight</span></a>
+<a href="../variables/Enum.KeyCode.KeypadEnter-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Enter</span></a>
+<a href="../variables/Enum.KeyCode.KeypadEquals-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Equals</span></a>
+<a href="../variables/Enum.KeyCode.KeypadFive-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Five</span></a>
+<a href="../variables/Enum.KeyCode.KeypadFour-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Four</span></a>
+<a href="../variables/Enum.KeyCode.KeypadMinus-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Minus</span></a>
+<a href="../variables/Enum.KeyCode.KeypadMultiply-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Multiply</span></a>
+<a href="../variables/Enum.KeyCode.KeypadNine-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Nine</span></a>
+<a href="../variables/Enum.KeyCode.KeypadOne-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>One</span></a>
+<a href="../variables/Enum.KeyCode.KeypadPeriod-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Period</span></a>
+<a href="../variables/Enum.KeyCode.KeypadPlus-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Plus</span></a>
+<a href="../variables/Enum.KeyCode.KeypadSeven-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Seven</span></a>
+<a href="../variables/Enum.KeyCode.KeypadSix-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Six</span></a>
+<a href="../variables/Enum.KeyCode.KeypadThree-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Three</span></a>
+<a href="../variables/Enum.KeyCode.KeypadTwo-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Two</span></a>
+<a href="../variables/Enum.KeyCode.KeypadZero-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Keypad<wbr/>Zero</span></a>
+<a href="../variables/Enum.KeyCode.L-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>L</span></a>
+<a href="../variables/Enum.KeyCode.Left-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left</span></a>
+<a href="../variables/Enum.KeyCode.LeftAlt-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Alt</span></a>
+<a href="../variables/Enum.KeyCode.LeftBracket-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Bracket</span></a>
+<a href="../variables/Enum.KeyCode.LeftControl-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Control</span></a>
+<a href="../variables/Enum.KeyCode.LeftCurly-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Curly</span></a>
+<a href="../variables/Enum.KeyCode.LeftMeta-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Meta</span></a>
+<a href="../variables/Enum.KeyCode.LeftParenthesis-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Parenthesis</span></a>
+<a href="../variables/Enum.KeyCode.LeftShift-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Shift</span></a>
+<a href="../variables/Enum.KeyCode.LeftSuper-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Left<wbr/>Super</span></a>
+<a href="../variables/Enum.KeyCode.LessThan-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Less<wbr/>Than</span></a>
+<a href="../variables/Enum.KeyCode.M-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>M</span></a>
+<a href="../variables/Enum.KeyCode.Menu-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Menu</span></a>
+<a href="../variables/Enum.KeyCode.Minus-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Minus</span></a>
+<a href="../variables/Enum.KeyCode.Mode-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Mode</span></a>
+<a href="../variables/Enum.KeyCode.N-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>N</span></a>
+<a href="../variables/Enum.KeyCode.Nine-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Nine</span></a>
+<a href="../variables/Enum.KeyCode.NumLock-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Num<wbr/>Lock</span></a>
+<a href="../variables/Enum.KeyCode.O-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>O</span></a>
+<a href="../variables/Enum.KeyCode.One-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>One</span></a>
+<a href="../variables/Enum.KeyCode.P-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>P</span></a>
+<a href="../variables/Enum.KeyCode.PageDown-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Page<wbr/>Down</span></a>
+<a href="../variables/Enum.KeyCode.PageUp-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Page<wbr/>Up</span></a>
+<a href="../variables/Enum.KeyCode.Pause-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Pause</span></a>
+<a href="../variables/Enum.KeyCode.Percent-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Percent</span></a>
+<a href="../variables/Enum.KeyCode.Period-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Period</span></a>
+<a href="../variables/Enum.KeyCode.Pipe-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Pipe</span></a>
+<a href="../variables/Enum.KeyCode.Plus-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Plus</span></a>
+<a href="../variables/Enum.KeyCode.Power-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Power</span></a>
+<a href="../variables/Enum.KeyCode.Print-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Print</span></a>
+<a href="../variables/Enum.KeyCode.Q-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Q</span></a>
+<a href="../variables/Enum.KeyCode.Question-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Question</span></a>
+<a href="../variables/Enum.KeyCode.Quote-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Quote</span></a>
+<a href="../variables/Enum.KeyCode.QuotedDouble-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Quoted<wbr/>Double</span></a>
+<a href="../variables/Enum.KeyCode.R-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>R</span></a>
+<a href="../variables/Enum.KeyCode.Return-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Return</span></a>
+<a href="../variables/Enum.KeyCode.Right-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right</span></a>
+<a href="../variables/Enum.KeyCode.RightAlt-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Alt</span></a>
+<a href="../variables/Enum.KeyCode.RightBracket-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Bracket</span></a>
+<a href="../variables/Enum.KeyCode.RightControl-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Control</span></a>
+<a href="../variables/Enum.KeyCode.RightCurly-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Curly</span></a>
+<a href="../variables/Enum.KeyCode.RightMeta-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Meta</span></a>
+<a href="../variables/Enum.KeyCode.RightParenthesis-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Parenthesis</span></a>
+<a href="../variables/Enum.KeyCode.RightShift-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Shift</span></a>
+<a href="../variables/Enum.KeyCode.RightSuper-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Right<wbr/>Super</span></a>
+<a href="../variables/Enum.KeyCode.S-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>S</span></a>
+<a href="../variables/Enum.KeyCode.ScrollLock-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Scroll<wbr/>Lock</span></a>
+<a href="../variables/Enum.KeyCode.Semicolon-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Semicolon</span></a>
+<a href="../variables/Enum.KeyCode.Seven-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Seven</span></a>
+<a href="../variables/Enum.KeyCode.Six-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Six</span></a>
+<a href="../variables/Enum.KeyCode.Slash-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Slash</span></a>
+<a href="../variables/Enum.KeyCode.Space-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Space</span></a>
+<a href="../variables/Enum.KeyCode.SysReq-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Sys<wbr/>Req</span></a>
+<a href="../variables/Enum.KeyCode.T-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>T</span></a>
+<a href="../variables/Enum.KeyCode.Tab-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Tab</span></a>
+<a href="../variables/Enum.KeyCode.Three-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Three</span></a>
+<a href="../variables/Enum.KeyCode.Thumbstick1-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Thumbstick1</span></a>
+<a href="../variables/Enum.KeyCode.Thumbstick2-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Thumbstick2</span></a>
+<a href="../variables/Enum.KeyCode.Tilde-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Tilde</span></a>
+<a href="../variables/Enum.KeyCode.Two-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Two</span></a>
+<a href="../variables/Enum.KeyCode.U-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>U</span></a>
+<a href="../variables/Enum.KeyCode.Underscore-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Underscore</span></a>
+<a href="../variables/Enum.KeyCode.Undo-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Undo</span></a>
+<a href="../variables/Enum.KeyCode.Unknown-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Unknown</span></a>
+<a href="../variables/Enum.KeyCode.Up-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Up</span></a>
+<a href="../variables/Enum.KeyCode.V-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>V</span></a>
+<a href="../variables/Enum.KeyCode.W-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>W</span></a>
+<a href="../variables/Enum.KeyCode.World0-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World0</span></a>
+<a href="../variables/Enum.KeyCode.World1-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World1</span></a>
+<a href="../variables/Enum.KeyCode.World10-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World10</span></a>
+<a href="../variables/Enum.KeyCode.World11-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World11</span></a>
+<a href="../variables/Enum.KeyCode.World12-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World12</span></a>
+<a href="../variables/Enum.KeyCode.World13-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World13</span></a>
+<a href="../variables/Enum.KeyCode.World14-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World14</span></a>
+<a href="../variables/Enum.KeyCode.World15-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World15</span></a>
+<a href="../variables/Enum.KeyCode.World16-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World16</span></a>
+<a href="../variables/Enum.KeyCode.World17-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World17</span></a>
+<a href="../variables/Enum.KeyCode.World18-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World18</span></a>
+<a href="../variables/Enum.KeyCode.World19-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World19</span></a>
+<a href="../variables/Enum.KeyCode.World2-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World2</span></a>
+<a href="../variables/Enum.KeyCode.World20-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World20</span></a>
+<a href="../variables/Enum.KeyCode.World21-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World21</span></a>
+<a href="../variables/Enum.KeyCode.World22-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World22</span></a>
+<a href="../variables/Enum.KeyCode.World23-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World23</span></a>
+<a href="../variables/Enum.KeyCode.World24-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World24</span></a>
+<a href="../variables/Enum.KeyCode.World25-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World25</span></a>
+<a href="../variables/Enum.KeyCode.World26-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World26</span></a>
+<a href="../variables/Enum.KeyCode.World27-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World27</span></a>
+<a href="../variables/Enum.KeyCode.World28-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World28</span></a>
+<a href="../variables/Enum.KeyCode.World29-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World29</span></a>
+<a href="../variables/Enum.KeyCode.World3-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World3</span></a>
+<a href="../variables/Enum.KeyCode.World30-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World30</span></a>
+<a href="../variables/Enum.KeyCode.World31-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World31</span></a>
+<a href="../variables/Enum.KeyCode.World32-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World32</span></a>
+<a href="../variables/Enum.KeyCode.World33-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World33</span></a>
+<a href="../variables/Enum.KeyCode.World34-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World34</span></a>
+<a href="../variables/Enum.KeyCode.World35-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World35</span></a>
+<a href="../variables/Enum.KeyCode.World36-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World36</span></a>
+<a href="../variables/Enum.KeyCode.World37-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World37</span></a>
+<a href="../variables/Enum.KeyCode.World38-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World38</span></a>
+<a href="../variables/Enum.KeyCode.World39-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World39</span></a>
+<a href="../variables/Enum.KeyCode.World4-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World4</span></a>
+<a href="../variables/Enum.KeyCode.World40-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World40</span></a>
+<a href="../variables/Enum.KeyCode.World41-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World41</span></a>
+<a href="../variables/Enum.KeyCode.World42-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World42</span></a>
+<a href="../variables/Enum.KeyCode.World43-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World43</span></a>
+<a href="../variables/Enum.KeyCode.World44-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World44</span></a>
+<a href="../variables/Enum.KeyCode.World45-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World45</span></a>
+<a href="../variables/Enum.KeyCode.World46-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World46</span></a>
+<a href="../variables/Enum.KeyCode.World47-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World47</span></a>
+<a href="../variables/Enum.KeyCode.World48-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World48</span></a>
+<a href="../variables/Enum.KeyCode.World49-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World49</span></a>
+<a href="../variables/Enum.KeyCode.World5-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World5</span></a>
+<a href="../variables/Enum.KeyCode.World50-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World50</span></a>
+<a href="../variables/Enum.KeyCode.World51-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World51</span></a>
+<a href="../variables/Enum.KeyCode.World52-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World52</span></a>
+<a href="../variables/Enum.KeyCode.World53-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World53</span></a>
+<a href="../variables/Enum.KeyCode.World54-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World54</span></a>
+<a href="../variables/Enum.KeyCode.World55-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World55</span></a>
+<a href="../variables/Enum.KeyCode.World56-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World56</span></a>
+<a href="../variables/Enum.KeyCode.World57-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World57</span></a>
+<a href="../variables/Enum.KeyCode.World58-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World58</span></a>
+<a href="../variables/Enum.KeyCode.World59-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World59</span></a>
+<a href="../variables/Enum.KeyCode.World6-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World6</span></a>
+<a href="../variables/Enum.KeyCode.World60-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World60</span></a>
+<a href="../variables/Enum.KeyCode.World61-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World61</span></a>
+<a href="../variables/Enum.KeyCode.World62-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World62</span></a>
+<a href="../variables/Enum.KeyCode.World63-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World63</span></a>
+<a href="../variables/Enum.KeyCode.World64-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World64</span></a>
+<a href="../variables/Enum.KeyCode.World65-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World65</span></a>
+<a href="../variables/Enum.KeyCode.World66-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World66</span></a>
+<a href="../variables/Enum.KeyCode.World67-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World67</span></a>
+<a href="../variables/Enum.KeyCode.World68-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World68</span></a>
+<a href="../variables/Enum.KeyCode.World69-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World69</span></a>
+<a href="../variables/Enum.KeyCode.World7-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World7</span></a>
+<a href="../variables/Enum.KeyCode.World70-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World70</span></a>
+<a href="../variables/Enum.KeyCode.World71-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World71</span></a>
+<a href="../variables/Enum.KeyCode.World72-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World72</span></a>
+<a href="../variables/Enum.KeyCode.World73-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World73</span></a>
+<a href="../variables/Enum.KeyCode.World74-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World74</span></a>
+<a href="../variables/Enum.KeyCode.World75-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World75</span></a>
+<a href="../variables/Enum.KeyCode.World76-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World76</span></a>
+<a href="../variables/Enum.KeyCode.World77-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World77</span></a>
+<a href="../variables/Enum.KeyCode.World78-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World78</span></a>
+<a href="../variables/Enum.KeyCode.World79-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World79</span></a>
+<a href="../variables/Enum.KeyCode.World8-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World8</span></a>
+<a href="../variables/Enum.KeyCode.World80-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World80</span></a>
+<a href="../variables/Enum.KeyCode.World81-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World81</span></a>
+<a href="../variables/Enum.KeyCode.World82-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World82</span></a>
+<a href="../variables/Enum.KeyCode.World83-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World83</span></a>
+<a href="../variables/Enum.KeyCode.World84-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World84</span></a>
+<a href="../variables/Enum.KeyCode.World85-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World85</span></a>
+<a href="../variables/Enum.KeyCode.World86-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World86</span></a>
+<a href="../variables/Enum.KeyCode.World87-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World87</span></a>
+<a href="../variables/Enum.KeyCode.World88-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World88</span></a>
+<a href="../variables/Enum.KeyCode.World89-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World89</span></a>
+<a href="../variables/Enum.KeyCode.World9-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World9</span></a>
+<a href="../variables/Enum.KeyCode.World90-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World90</span></a>
+<a href="../variables/Enum.KeyCode.World91-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World91</span></a>
+<a href="../variables/Enum.KeyCode.World92-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World92</span></a>
+<a href="../variables/Enum.KeyCode.World93-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World93</span></a>
+<a href="../variables/Enum.KeyCode.World94-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World94</span></a>
+<a href="../variables/Enum.KeyCode.World95-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>World95</span></a>
+<a href="../variables/Enum.KeyCode.X-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>X</span></a>
+<a href="../variables/Enum.KeyCode.Y-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Y</span></a>
+<a href="../variables/Enum.KeyCode.Z-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Z</span></a>
+<a href="../variables/Enum.KeyCode.Zero-1.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-32"></use></svg><span>Zero</span></a>
+</div></section><section class="tsd-index-section"><h3 class="tsd-index-heading">Functions</h3><div class="tsd-index-list"><a href="../functions/Enum.KeyCode.GetEnumItems.html" class="tsd-index-link tsd-is-external"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-64"></use></svg><span>Get<wbr/>Enum<wbr/>Items</span></a>
+</div></section></section></section></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-1"></use></svg><span>@antivivi/fletchette</span></a><ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base=".."><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div><script>
+          try {
+            const generateLinkElement = document.querySelector(".tsd-generator a");
+            const link = document.createElement("a");
+            Object.assign(link, {
+              href: "https://github.com/dmnsgn/typedoc-material-theme",
+              target: "_blank",
+              rel: "noreferrer",
+              innerText: "typedoc-material-theme."
+            });
+            generateLinkElement.insertAdjacentElement("afterend", link);
+            generateLinkElement.insertAdjacentText("afterend", " with ");
+          } catch (error) {
+
+          }
+        </script></body></html>
