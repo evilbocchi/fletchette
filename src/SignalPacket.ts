@@ -1,6 +1,7 @@
 import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
 import { Players } from "@rbxts/services";
+import { IS_EDIT } from "./Environment";
 import PacketStorage from "./PacketStorage";
 
 /**
@@ -25,6 +26,11 @@ export default class SignalPacket<T> {
      */
     serializer: Serializer<Parameters<T>>;
 
+    /** Set of virtual handlers that can be used to handle the signal on the client */
+    virtualClientHandlers?: Set<(...args: Parameters<T>) => void>;
+    /** Set of virtual handlers that can be used to handle the signal on the server */
+    virtualServerHandlers?: Set<(player: Player, ...args: Parameters<T>) => void>;
+
     /**
      * Create a SignalPacket with a unique id. Metadata can be provided to specify how the data should be serialized.
      * 
@@ -36,6 +42,9 @@ export default class SignalPacket<T> {
         this.id = id;
         this.serializer = createBinarySerializer<Parameters<T>>(meta);
         this.remoteEvent = PacketStorage.getSignalRemote(id, isUnreliable);
+        if (IS_EDIT) {
+            this.virtualClientHandlers = new Set();
+        }
     }
 
     /**
@@ -44,7 +53,14 @@ export default class SignalPacket<T> {
      * @param player The player to send the signal to
      * @param args The data to send
      */
-    fire(player: Player, ...args: Parameters<T>) {
+    fire(player: Player, ...args: Parameters<T>): void {
+        if (this.virtualServerHandlers) {
+            for (const handler of this.virtualServerHandlers) {
+                handler(player, ...args);
+            }
+            return;
+        }
+
         const serialized = this.serializer.serialize(args);
         this.remoteEvent!.FireClient(player, serialized.buffer, serialized.blobs);
     }
@@ -54,7 +70,14 @@ export default class SignalPacket<T> {
      * 
      * @param args The data to send
      */
-    fireAll(...args: Parameters<T>) {
+    fireAll(...args: Parameters<T>): void {
+        if (this.virtualServerHandlers) {
+            for (const handler of this.virtualServerHandlers) {
+                handler(Players.LocalPlayer, ...args);
+            }
+            return;
+        }
+
         const serialized = this.serializer.serialize(args);
         this.remoteEvent!.FireAllClients(serialized.buffer, serialized.blobs);
     }
@@ -66,7 +89,7 @@ export default class SignalPacket<T> {
      * @param radius The radius to send the signal to
      * @param args The data to send
      */
-    fireInRadius(position: Vector3, radius: number, ...args: Parameters<T>) {
+    fireInRadius(position: Vector3, radius: number, ...args: Parameters<T>): void {
         const players = Players.GetPlayers();
         for (const player of players) {
             const character = player.Character;
@@ -84,7 +107,7 @@ export default class SignalPacket<T> {
      * @param player The player to exclude
      * @param args The data to send
      */
-    fireExcept(player: Player, ...args: Parameters<T>) {
+    fireExcept(player: Player, ...args: Parameters<T>): void {
         const players = Players.GetPlayers();
         for (const p of players) {
             if (p !== player) {
@@ -99,7 +122,7 @@ export default class SignalPacket<T> {
      * @param players The list of players to send the signal to
      * @param args The data to send
      */
-    fireList(players: Player[], ...args: Parameters<T>) {
+    fireList(players: Player[], ...args: Parameters<T>): void {
         for (const player of players) {
             this.fire(player, ...args);
         }
@@ -111,9 +134,37 @@ export default class SignalPacket<T> {
      * 
      * @param args The data to send
      */
-    inform(...args: Parameters<T>) {
+    inform(...args: Parameters<T>): void {
+        if (this.virtualClientHandlers) {
+            for (const handler of this.virtualClientHandlers) {
+                handler(...args);
+            }
+            return;
+        }
+
         const serialized = this.serializer.serialize(args);
         this.remoteEvent!.FireServer(serialized.buffer, serialized.blobs);
+    }
+
+    /**
+     * Create a virtual connection for a handler, used when cross-boundary communication should be simulated.
+     * 
+     * @param handlers The set of handlers to manage
+     * @param handler The specific handler to create a virtual connection for
+     * @returns The virtual connection object
+     */
+    private createVirtualHandler<T>(handlers?: Set<T>, handler?: T): RBXScriptConnection | undefined {
+        if (handlers && handler) {
+            handlers.add(handler);
+            const virtualConnection = {
+                Connected: true,
+                Disconnect: () => {
+                    virtualConnection.Connected = false;
+                    handlers.delete(handler);
+                }
+            };
+            return virtualConnection;
+        }
     }
 
     /**
@@ -124,7 +175,12 @@ export default class SignalPacket<T> {
      * @param handler The function to call when the signal is fired
      * @returns The connection object
      */
-    connect(handler: (...args: Parameters<T>) => void) {
+    connect(handler: (...args: Parameters<T>) => void): RBXScriptConnection {
+        const virtualConnection = this.createVirtualHandler(this.virtualClientHandlers, handler);
+        if (virtualConnection) {
+            return virtualConnection;
+        }
+
         return this.remoteEvent!.OnClientEvent.Connect((buffer, blobs) => handler(...this.serializer.deserialize(buffer, blobs)));
     }
 
@@ -135,7 +191,12 @@ export default class SignalPacket<T> {
      * 
      * @param handler The function to call when the signal is fired
      */
-    listen(handler: (player: Player, ...args: Parameters<T>) => void) {
-        this.remoteEvent!.OnServerEvent.Connect((player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[])));
+    listen(handler: (player: Player, ...args: Parameters<T>) => void): RBXScriptConnection {
+        const virtualConnection = this.createVirtualHandler(this.virtualServerHandlers, handler);
+        if (virtualConnection) {
+            return virtualConnection;
+        }
+
+        return this.remoteEvent!.OnServerEvent.Connect((player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[])));
     }
 }

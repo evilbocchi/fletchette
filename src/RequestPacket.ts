@@ -1,5 +1,6 @@
 import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
+import { IS_EDIT } from "./Environment";
 import PacketStorage from "./PacketStorage";
 
 /**
@@ -27,6 +28,11 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      */
     serializer: Serializer<Parameters<T>>;
 
+    /** Virtual handler that can be used to handle the request on the client */
+    virtualClientHandler?: (...args: Parameters<T>) => B;
+    /** Virtual handler that can be used to handle the request on the server */
+    virtualServerHandler?: (player: Player, ...args: Parameters<T>) => B;
+
     /**
      * Create a RequestPacket with a unique id. Metadata can be provided to specify how the data should be serialized.
      * 
@@ -47,6 +53,10 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param args The data to send
      */
     invoke(...args: Parameters<T>): B {
+        if (this.virtualClientHandler) {
+            return this.virtualClientHandler(...args);
+        }
+
         const serialized = this.serializer.serialize(args);
         return this.remoteFunction!.InvokeServer(serialized.buffer, serialized.blobs);
     }
@@ -60,6 +70,10 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param args The data to send
      */
     query(player: Player, ...args: Parameters<T>): B {
+        if (this.virtualServerHandler) {
+            return this.virtualServerHandler(player, ...args);
+        }
+
         const serialized = this.serializer.serialize(args);
         return this.remoteFunction!.InvokeClient(player, serialized.buffer, serialized.blobs) as B;
     }
@@ -70,7 +84,12 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * 
      * @param handler The handler to call when a query is made
      */
-    onQuery(handler: (...args: Parameters<T>) => B) {
+    onQuery(handler: (...args: Parameters<T>) => B): void {
+        if (IS_EDIT) {
+            this.virtualClientHandler = handler;
+            return;
+        }
+
         this.remoteFunction!.OnClientInvoke = (buffer, blobs) => handler(...this.serializer.deserialize(buffer, blobs));
     }
 
@@ -80,7 +99,12 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * 
      * @param handler The handler to call when a request is made
      */
-    onInvoke(handler: (player: Player, ...args: Parameters<T>) => B) {
+    onInvoke(handler: (player: Player, ...args: Parameters<T>) => B): void {
+        if (IS_EDIT) {
+            this.virtualServerHandler = handler;
+            return;
+        }
+
         this.remoteFunction!.OnServerInvoke = (player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[]));
     }
 }

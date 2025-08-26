@@ -1,33 +1,20 @@
-import { ReplicatedStorage, RunService } from "@rbxts/services";
+import { ReplicatedStorage } from "@rbxts/services";
+import { IS_EDIT, IS_SERVER } from "./Environment";
 
 /**
  * Utility functions for creating RemoteEvents and RemoteFunctions.
  * Remotes are stored in ReplicatedStorage.PacketStorage.
  */
 export default class PacketStorage {
-    
-    /**
-     * Whether the current environment is server.
-     * @internal Should not be used outside of this module.
-     */
-    protected static readonly IS_SERVER = RunService.IsServer();
-
-    /**
-     * Whether the current environment is in edit mode.
-     * This is used to determine whether to create new instances.
-     * 
-     * @internal Should not be used outside of this module.
-     */
-    protected static readonly IS_EDIT = RunService.IsStudio() && !RunService.IsRunning();
 
     /**
      * PacketStorage folder in ReplicatedStorage.
      */
     static readonly PACKET_STORAGE = (() => {
-        if (this.IS_SERVER || this.IS_EDIT) {
+        if (IS_SERVER || IS_EDIT) {
             const PacketStorage = new Instance("Folder");
             PacketStorage.Name = "PacketStorage";
-            if (!this.IS_EDIT)
+            if (!IS_EDIT)
                 PacketStorage.Parent = ReplicatedStorage;
             return PacketStorage;
         }
@@ -44,10 +31,10 @@ export default class PacketStorage {
      */
     static getSignalRemote(id: string | number, isUnreliable?: boolean) {
         let remote: RemoteEvent;
-        if (this.IS_SERVER || this.IS_EDIT) {
+        if (IS_SERVER || IS_EDIT) {
             remote = (new Instance(isUnreliable === true ? "UnreliableRemoteEvent" : "RemoteEvent") as BaseRemoteEvent) as RemoteEvent;
             remote.Name = tostring(id);
-            if (!this.IS_EDIT)
+            if (!IS_EDIT)
                 remote.Parent = this.PACKET_STORAGE;
         }
         else {
@@ -63,10 +50,10 @@ export default class PacketStorage {
      */
     static getRequestRemote(id: string | number) {
         let remote: RemoteFunction;
-        if (this.IS_SERVER || this.IS_EDIT) {
+        if (IS_SERVER || IS_EDIT) {
             remote = new Instance("RemoteFunction");
             remote.Name = tostring(id);
-            if (!this.IS_EDIT)
+            if (!IS_EDIT)
                 remote.Parent = this.PACKET_STORAGE;
         }
         else {
