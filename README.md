@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="350" alt="Fletchette logo" src="assets/icon.jpg">
+  <img width="300" alt="Fletchette logo" src="assets/icon.png">
 </p>
 
 # Fletchette
