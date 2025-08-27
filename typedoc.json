@@ -3,7 +3,7 @@
     "themeColor": "#f5be7f",
     "placeInternalsInOwningModule": true,
     "highlightLanguages": ["lua", "typescript", "bash"],
-    "favicon": "assets/icon.jpg",
+    "favicon": "assets/icon.png",
     "customTitle": "@antivivi/fletchette",
     "customDescription": "A type-safe networking library for roblox-ts that simplifies client-server communication.",
     "entryPoints": ["src/index.ts"],
