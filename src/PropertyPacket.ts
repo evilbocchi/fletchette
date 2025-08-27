@@ -2,7 +2,7 @@ import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
 import { Players } from "@rbxts/services";
-import { IS_SERVER } from "./Environment";
+import { IS_SERVER, IS_EDIT } from "./Environment";
 import SignalPacket from "./SignalPacket";
 
 /**
@@ -40,6 +40,16 @@ export default class PropertyPacket<T> {
     private playerRemoving?: RBXScriptConnection;
 
     /**
+     * Virtual property value used in edit mode
+     */
+    private virtualValue?: T;
+
+    /**
+     * Virtual per-player values used in edit mode
+     */
+    private virtualPerPlayer?: Map<Player, T | undefined>;
+
+    /**
      * Creates a new PropertyPacket.
      * 
      * @param id The id of the property
@@ -52,7 +62,12 @@ export default class PropertyPacket<T> {
         if (initialValue !== undefined)
             this.value = initialValue;
 
-        if (IS_SERVER) {
+        if (IS_EDIT) {
+            this.virtualValue = initialValue;
+            this.virtualPerPlayer = new Map();
+            this.changed = new Signal();
+        }
+        else if (IS_SERVER) {
             this.signalPacket.remoteEvent.SetAttribute("RemoteProperty", true);
             this.perPlayer = new Map();
             this.playerRemoving = Players.PlayerRemoving.Connect((player) => this.perPlayer!.delete(player));
@@ -89,6 +104,16 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     set(value: T) {
+        if (IS_EDIT) {
+            this.virtualValue = value;
+            this.virtualPerPlayer!.clear();
+            // Simulate firing to all connected handlers
+            if (this.changed) {
+                this.changed.fire(value);
+            }
+            return;
+        }
+
         this.value = value;
         this.perPlayer!.clear();
         this.signalPacket.fireAll(value);
@@ -101,6 +126,15 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     setTop(value: T) {
+        if (IS_EDIT) {
+            this.virtualValue = value;
+            // In edit mode, simulate sending to players without per-player values
+            if (this.changed) {
+                this.changed.fire(value);
+            }
+            return;
+        }
+
         this.value = value;
         for (const player of Players.GetPlayers()) {
             if (this.perPlayer!.get(player) === undefined) {
@@ -117,6 +151,14 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     setFilter(predicate: (player: Player) => boolean, value: T) {
+        if (IS_EDIT) {
+            // In edit mode, simulate setting for filtered players
+            if (this.changed) {
+                this.changed.fire(value);
+            }
+            return;
+        }
+
         for (const player of Players.GetPlayers()) {
             if (predicate(player)) {
                 this.setFor(player, value);
@@ -132,6 +174,15 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     setFor(player: Player, value: T) {
+        if (IS_EDIT) {
+            this.virtualPerPlayer!.set(player, value);
+            // Simulate firing to the specific player
+            if (this.changed) {
+                this.changed.fire(value);
+            }
+            return;
+        }
+
         if (player.Parent !== undefined) {
             this.perPlayer!.set(player, value);
         }
@@ -157,6 +208,15 @@ export default class PropertyPacket<T> {
      * Should only be used on the server.
      */
     clearFor(player: Player) {
+        if (IS_EDIT) {
+            this.virtualPerPlayer!.set(player, undefined);
+            // Simulate firing the global value to the player
+            if (this.changed && this.virtualValue !== undefined) {
+                this.changed.fire(this.virtualValue);
+            }
+            return;
+        }
+
         this.perPlayer!.set(player, undefined);
         this.signalPacket.fire(player, this.value);
     }
@@ -180,6 +240,14 @@ export default class PropertyPacket<T> {
      * @param predicate The predicate to filter players
      */
     clearFilter(predicate: (player: Player) => boolean) {
+        if (IS_EDIT) {
+            // In edit mode, simulate clearing for filtered players
+            if (this.changed && this.virtualValue !== undefined) {
+                this.changed.fire(this.virtualValue);
+            }
+            return;
+        }
+
         for (const player of Players.GetPlayers()) {
             if (predicate(player)) {
                 this.clearFor(player);
@@ -192,6 +260,9 @@ export default class PropertyPacket<T> {
      * For the server, this will ignore the perPlayer map and return the value.
      */
     get() {
+        if (IS_EDIT) {
+            return this.virtualValue;
+        }
         return this.value;
     }
 
@@ -203,6 +274,11 @@ export default class PropertyPacket<T> {
      * @returns The value of the property for the player
      */
     getFor(player: Player) {
+        if (IS_EDIT) {
+            const playerVal = this.virtualPerPlayer!.get(player);
+            return playerVal === undefined ? this.virtualValue : playerVal;
+        }
+
         const playerVal = this.perPlayer!.get(player);
         return playerVal === undefined ? this.value : playerVal;
     }
@@ -217,10 +293,12 @@ export default class PropertyPacket<T> {
     observe(handler: (value: T) => void) {
         task.spawn(() => {
             while (task.wait()) {
-                if (this.value !== undefined)
+                const currentValue = IS_EDIT ? this.virtualValue : this.value;
+                if (currentValue !== undefined)
                     break;
             }
-            handler(this.value);
+            const currentValue = IS_EDIT ? this.virtualValue! : this.value;
+            handler(currentValue);
         });
         return this.changed.connect((value) => handler(value));
     }
