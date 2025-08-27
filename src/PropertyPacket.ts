@@ -1,47 +1,12 @@
 import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
-import { createBinarySerializer, Serializer } from "@rbxts/flamework-binary-serializer";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
-import { Players, RunService } from "@rbxts/services";
-import PacketStorage from "./PacketStorage";
+import { Players } from "@rbxts/services";
+import { IS_SERVER } from "./Environment";
+import SignalPacket from "./SignalPacket";
 
 /**
- * Modified version of SignalPacket that sends a single value instead of a tuple.
- */
-class PropertySignalPacket<T> {
-    readonly id: string;
-    remoteEvent: RemoteEvent;
-    serializer: Serializer<T>;
-
-    constructor(id: string, isUnreliable?: boolean, meta?: Modding.Many<SerializerMetadata<T>>) {
-        this.id = id;
-        this.serializer = createBinarySerializer<T>(meta);
-        this.remoteEvent = PacketStorage.getSignalRemote(id, isUnreliable);
-    }
-
-    fire(player: Player, value: T) {
-        const serialized = this.serializer.serialize(value);
-        this.remoteEvent!.FireClient(player, serialized.buffer, serialized.blobs);
-    }
-
-    fireAll(value: T) {
-        const serialized = this.serializer.serialize(value);
-        this.remoteEvent!.FireAllClients(serialized.buffer, serialized.blobs);
-    }
-
-    connect(handler: (value: T) => void) {
-        return this.remoteEvent!.OnClientEvent.Connect((buffer, blobs) => handler(this.serializer.deserialize(buffer, blobs)));
-    }
-
-    listen(handler: (player: Player, value: T) => void) {
-        this.remoteEvent!.OnServerEvent.Connect((player, buffer, blobs) => handler(player, this.serializer.deserialize(buffer as buffer, blobs as defined[])));
-    }
-}
-
-const IS_SERVER = RunService.IsServer();
-
-/**
- * PropertyPacket is a wrapper around PropertySignalPacket that provides a type-safe way to send data between server and client.
+ * PropertyPacket is a wrapper around SignalPacket that provides a type-safe way to send data between server and client.
  * This implements a property system where the value can be set for all players, a specific player, or a filtered list of players.
  * 
  * @typeParam T The type of the property
@@ -51,7 +16,7 @@ export default class PropertyPacket<T> {
     /**
      * SignalPacket used to send the property
      */
-    signalPacket: PropertySignalPacket<T>;
+    signalPacket: SignalPacket<(value: T) => void>;
 
     /**
      * The current value of the property
@@ -73,7 +38,7 @@ export default class PropertyPacket<T> {
      * Connection to {@link Players.PlayerRemoving} event.
      */
     private playerRemoving?: RBXScriptConnection;
-    
+
     /**
      * Creates a new PropertyPacket.
      * 
@@ -82,8 +47,8 @@ export default class PropertyPacket<T> {
      * @param isUnreliable Whether the property should be sent unreliably. Default is false.
      * @param meta Metadata for the serializer
      */
-    constructor(id: string, initialValue?: T, isUnreliable?: boolean, meta?: Modding.Many<SerializerMetadata<T>>) {
-        this.signalPacket = new PropertySignalPacket<T>(id, isUnreliable === true, meta);
+    constructor(id: string, initialValue?: T, isUnreliable?: boolean, meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>) {
+        this.signalPacket = new SignalPacket<(value: T) => void>(id, isUnreliable === true, meta);
         if (initialValue !== undefined)
             this.value = initialValue;
 
@@ -91,7 +56,7 @@ export default class PropertyPacket<T> {
             this.signalPacket.remoteEvent.SetAttribute("RemoteProperty", true);
             this.perPlayer = new Map();
             this.playerRemoving = Players.PlayerRemoving.Connect((player) => this.perPlayer!.delete(player));
-            
+
             this.signalPacket.remoteEvent.OnServerEvent.Connect((player) => {
                 let result = this.getFor(player);
                 if (result === undefined) {

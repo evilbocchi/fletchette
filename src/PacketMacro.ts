@@ -45,6 +45,6 @@ export function request<T extends Callback = Callback>(meta?: Modding.Many<Seria
  * 
  * @metadata macro
  */
-export function property<T>(initialValue?: T, isUnreliable?: boolean, meta?: Modding.Many<SerializerMetadata<T>>) {
+export function property<T>(initialValue?: T, isUnreliable?: boolean, meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>) {
     return new PropertyPacket<T>(tostring(++i), initialValue, isUnreliable, meta);
 }
