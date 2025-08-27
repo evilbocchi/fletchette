@@ -2,7 +2,7 @@ import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
 import { Players } from "@rbxts/services";
-import { IS_SERVER, IS_EDIT } from "./Environment";
+import { IS_EDIT, IS_SERVER } from "./Environment";
 import SignalPacket from "./SignalPacket";
 
 /**
@@ -80,12 +80,12 @@ export default class PropertyPacket<T> {
                         result = this.getFor(player);
                     }
                 }
-                this.signalPacket.fire(player, result);
+                this.signalPacket.toClient(player, result);
             });
         }
         else {
             this.changed = new Signal();
-            this.signalPacket.connect((value) => {
+            this.signalPacket.fromServer((value) => {
                 const changed = value !== this.value;
                 this.value = value;
                 if (changed === true) {
@@ -116,7 +116,7 @@ export default class PropertyPacket<T> {
 
         this.value = value;
         this.perPlayer!.clear();
-        this.signalPacket.fireAll(value);
+        this.signalPacket.toAllClients(value);
     }
 
     /**
@@ -138,7 +138,7 @@ export default class PropertyPacket<T> {
         this.value = value;
         for (const player of Players.GetPlayers()) {
             if (this.perPlayer!.get(player) === undefined) {
-                this.signalPacket.fire(player, value as T);
+                this.signalPacket.toClient(player, value as T);
             }
         }
     }
@@ -186,7 +186,7 @@ export default class PropertyPacket<T> {
         if (player.Parent !== undefined) {
             this.perPlayer!.set(player, value);
         }
-        this.signalPacket.fire(player, value as T);
+        this.signalPacket.toClient(player, value as T);
     }
 
     /**
@@ -218,7 +218,7 @@ export default class PropertyPacket<T> {
         }
 
         this.perPlayer!.set(player, undefined);
-        this.signalPacket.fire(player, this.value);
+        this.signalPacket.toClient(player, this.value);
     }
 
     /**
@@ -304,13 +304,11 @@ export default class PropertyPacket<T> {
     }
 
     /**
-     * Disconnects all connections and destroys the remote event.
-     * Should be called when the property is no longer needed to prevent memory leaks.
+     * Destroys the property and cleans up any resources.
      */
     destroy() {
-        if (this.playerRemoving !== undefined) {
-            this.playerRemoving.Disconnect();
-        }
-        this.signalPacket.remoteEvent.Destroy();
+        this.playerRemoving?.Disconnect();
+        this.signalPacket.destroy();
+        table.clear(this);
     }
 }

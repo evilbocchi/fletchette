@@ -5,7 +5,7 @@ import PacketStorage from "./PacketStorage";
 
 /**
  * A request packet that can be sent between client and server.
- * This packet can be used to send data to the server and receive a response, or query a client for a response.
+ * This packet can be used to send data to the server and receive a response, or toClient a client for a response.
  * 
  * @typeParam V The data being sent by the request
  * @typeParam B The data being received by the request
@@ -47,12 +47,12 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
 
     /**
      * Invoke the request on the server.
-     * The server should have a handler set up with {@link onInvoke} that can handle the request.
+     * The server should have a handler set up with {@link fromClient} that can handle the toServer.
      * Hence, this function should only be called on the client.
      * 
      * @param args The data to send
      */
-    invoke(...args: Parameters<T>): B {
+    toServer(...args: Parameters<T>): B {
         if (IS_EDIT) {
             return this.virtualClientHandler?.(...args)!;
         }
@@ -63,13 +63,13 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
 
     /**
      * Query a client for a response.
-     * The client should have a handler set up with {@link onQuery} that can handle the query.
+     * The client should have a handler set up with {@link fromServer} that can handle the toClient.
      * Hence, this function should only be called on the server.
      * 
-     * @param player The player to send the query to
+     * @param player The player to send the toClient to
      * @param args The data to send
      */
-    query(player: Player, ...args: Parameters<T>): B {
+    toClient(player: Player, ...args: Parameters<T>): B {
         if (IS_EDIT) {
             return this.virtualServerHandler?.(player, ...args)!;
         }
@@ -79,12 +79,12 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
     }
 
     /**
-     * Set up a handler for the client to respond to a query.
+     * Set up a handler for the client to respond to {@link toClient}.
      * This function should only be called on the client to listen for queries made by the server.
      * 
-     * @param handler The handler to call when a query is made
+     * @param handler The handler to call when a toClient is made
      */
-    onQuery(handler: (...args: Parameters<T>) => B): void {
+    fromServer(handler: (...args: Parameters<T>) => B): void {
         if (IS_EDIT) {
             this.virtualClientHandler = handler;
             return;
@@ -94,17 +94,25 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
     }
 
     /**
-     * Set up a handler for the server to respond to a request.
+     * Set up a handler for the server to respond to {@link toServer}.
      * This function should only be called on the server to listen for requests made by the client.
      * 
      * @param handler The handler to call when a request is made
      */
-    onInvoke(handler: (player: Player, ...args: Parameters<T>) => B): void {
+    fromClient(handler: (player: Player, ...args: Parameters<T>) => B): void {
         if (IS_EDIT) {
             this.virtualServerHandler = handler;
             return;
         }
 
         this.remoteFunction!.OnServerInvoke = (player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[]));
+    }
+
+    /**
+     * Destroys the request and cleans up any resources.
+     */
+    destroy() {
+        this.remoteFunction?.Destroy();
+        table.clear(this);
     }
 }

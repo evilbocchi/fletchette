@@ -50,11 +50,12 @@ export default class SignalPacket<T> {
 
     /**
      * Fire the signal to a specific player.
+     * Used by the server to send data to a client.
      * 
      * @param player The player to send the signal to
      * @param args The data to send
      */
-    fire(player: Player, ...args: Parameters<T>): void {
+    toClient(player: Player, ...args: Parameters<T>): void {
         if (this.virtualServerHandlers) {
             for (const handler of this.virtualServerHandlers) {
                 handler(player, ...args);
@@ -68,10 +69,11 @@ export default class SignalPacket<T> {
 
     /**
      * Fire the signal to all players.
+     * Used by the server to send data to all clients.
      * 
      * @param args The data to send
      */
-    fireAll(...args: Parameters<T>): void {
+    toAllClients(...args: Parameters<T>): void {
         if (this.virtualServerHandlers) {
             for (const handler of this.virtualServerHandlers) {
                 handler(Players.LocalPlayer, ...args);
@@ -85,47 +87,50 @@ export default class SignalPacket<T> {
 
     /**
      * Fire the signal to all players in a radius.
+     * Used by the server to send data to all clients within a certain radius.
      * 
      * @param position The position to center the radius around
      * @param radius The radius to send the signal to
      * @param args The data to send
      */
-    fireInRadius(position: Vector3, radius: number, ...args: Parameters<T>): void {
+    toClientsInRadius(position: Vector3, radius: number, ...args: Parameters<T>): void {
         const players = Players.GetPlayers();
         for (const player of players) {
             const character = player.Character;
             if (character === undefined || character.PrimaryPart === undefined)
                 continue;
             if (character.PrimaryPart.Position.sub(position).Magnitude <= radius) {
-                this.fire(player, ...args);
+                this.toClient(player, ...args);
             }
         }
     }
 
     /**
      * Fire the signal to all players except one.
+     * Used by the server to send data to all clients except one.
      * 
      * @param player The player to exclude
      * @param args The data to send
      */
-    fireExcept(player: Player, ...args: Parameters<T>): void {
+    toClientsExcept(player: Player, ...args: Parameters<T>): void {
         const players = Players.GetPlayers();
         for (const p of players) {
             if (p !== player) {
-                this.fire(p, ...args);
+                this.toClient(p, ...args);
             }
         }
     }
 
     /**
      * Fire the signal to a list of players.
+     * Used by the server to send data to a specific group of clients.
      * 
      * @param players The list of players to send the signal to
      * @param args The data to send
      */
-    fireList(players: Player[], ...args: Parameters<T>): void {
+    toClientsInList(players: Player[], ...args: Parameters<T>): void {
         for (const player of players) {
-            this.fire(player, ...args);
+            this.toClient(player, ...args);
         }
     }
 
@@ -135,7 +140,7 @@ export default class SignalPacket<T> {
      * 
      * @param args The data to send
      */
-    inform(...args: Parameters<T>): void {
+    toServer(...args: Parameters<T>): void {
         if (this.virtualClientHandlers) {
             for (const handler of this.virtualClientHandlers) {
                 handler(...args);
@@ -169,14 +174,14 @@ export default class SignalPacket<T> {
     }
 
     /**
-     * Connect a handler to the signal.
+     * Connect a client-side handler to the signal.
      * Used by the client to listen for data from the server.
      * Hence, this function should only be called on a client environment.
      * 
      * @param handler The function to call when the signal is fired
      * @returns The connection object
      */
-    connect(handler: (...args: Parameters<T>) => void): RBXScriptConnection {
+    fromServer(handler: (...args: Parameters<T>) => void): RBXScriptConnection {
         const virtualConnection = this.createVirtualHandler(this.virtualClientHandlers, handler);
         if (virtualConnection) {
             return virtualConnection;
@@ -186,18 +191,28 @@ export default class SignalPacket<T> {
     }
 
     /**
-     * Connect a handler to the signal.
+     * Connect a server-side handler to the signal.
      * Used by the server to listen for data from the client.
      * Hence, this function should only be called on a server environment.
      * 
      * @param handler The function to call when the signal is fired
      */
-    listen(handler: (player: Player, ...args: Parameters<T>) => void): RBXScriptConnection {
+    fromClient(handler: (player: Player, ...args: Parameters<T>) => void): RBXScriptConnection {
         const virtualConnection = this.createVirtualHandler(this.virtualServerHandlers, handler);
         if (virtualConnection) {
             return virtualConnection;
         }
 
         return this.remoteEvent!.OnServerEvent.Connect((player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[])));
+    }
+
+    /**
+     * Destroys the signal and cleans up any resources.
+     */
+    destroy() {
+        this.virtualClientHandlers?.clear();
+        this.virtualServerHandlers?.clear();
+        this.remoteEvent?.Destroy();
+        table.clear(this);
     }
 }
