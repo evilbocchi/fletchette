@@ -44,6 +44,7 @@ export default class SignalPacket<T> {
         this.remoteEvent = PacketStorage.getSignalRemote(id, isUnreliable);
         if (IS_EDIT) {
             this.virtualClientHandlers = new Set();
+            this.virtualServerHandlers = new Set();
         }
     }
 

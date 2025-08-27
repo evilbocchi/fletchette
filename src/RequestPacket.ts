@@ -53,8 +53,8 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param args The data to send
      */
     invoke(...args: Parameters<T>): B {
-        if (this.virtualClientHandler) {
-            return this.virtualClientHandler(...args);
+        if (IS_EDIT) {
+            return this.virtualClientHandler?.(...args)!;
         }
 
         const serialized = this.serializer.serialize(args);
@@ -70,8 +70,8 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param args The data to send
      */
     query(player: Player, ...args: Parameters<T>): B {
-        if (this.virtualServerHandler) {
-            return this.virtualServerHandler(player, ...args);
+        if (IS_EDIT) {
+            return this.virtualServerHandler?.(player, ...args)!;
         }
 
         const serialized = this.serializer.serialize(args);
