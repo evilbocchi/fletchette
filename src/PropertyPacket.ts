@@ -40,16 +40,6 @@ export default class PropertyPacket<T> {
     private playerRemoving?: RBXScriptConnection;
 
     /**
-     * Virtual property value used in edit mode
-     */
-    private virtualValue?: T;
-
-    /**
-     * Virtual per-player values used in edit mode
-     */
-    private virtualPerPlayer?: Map<Player, T | undefined>;
-
-    /**
      * Creates a new PropertyPacket.
      * 
      * @param id The id of the property
@@ -63,8 +53,7 @@ export default class PropertyPacket<T> {
             this.value = initialValue;
 
         if (IS_EDIT) {
-            this.virtualValue = initialValue;
-            this.virtualPerPlayer = new Map();
+            this.perPlayer = new Map();
             this.changed = new Signal();
         }
         else if (IS_SERVER) {
@@ -96,6 +85,19 @@ export default class PropertyPacket<T> {
         }
     }
 
+    private previousVirtualValue?: T;
+    private sendVirtually() {
+        if (IS_EDIT) {
+            const found = this.get();
+            if (this.previousVirtualValue !== found) {
+                this.changed.fire(found);
+            }
+            this.previousVirtualValue = found;
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Sets the value of the property.
      * This will clear the perPlayer map and fire the signal to all players.
@@ -104,18 +106,11 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     set(value: T) {
-        if (IS_EDIT) {
-            this.virtualValue = value;
-            this.virtualPerPlayer!.clear();
-            // Simulate firing to all connected handlers
-            if (this.changed) {
-                this.changed.fire(value);
-            }
-            return;
-        }
-
         this.value = value;
         this.perPlayer!.clear();
+
+        if (this.sendVirtually())
+            return;
         this.signalPacket.toAllClients(value);
     }
 
@@ -126,16 +121,10 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     setTop(value: T) {
-        if (IS_EDIT) {
-            this.virtualValue = value;
-            // In edit mode, simulate sending to players without per-player values
-            if (this.changed) {
-                this.changed.fire(value);
-            }
-            return;
-        }
-
         this.value = value;
+
+        if (this.sendVirtually())
+            return;
         for (const player of Players.GetPlayers()) {
             if (this.perPlayer!.get(player) === undefined) {
                 this.signalPacket.toClient(player, value as T);
@@ -151,14 +140,6 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     setFilter(predicate: (player: Player) => boolean, value: T) {
-        if (IS_EDIT) {
-            // In edit mode, simulate setting for filtered players
-            if (this.changed) {
-                this.changed.fire(value);
-            }
-            return;
-        }
-
         for (const player of Players.GetPlayers()) {
             if (predicate(player)) {
                 this.setFor(player, value);
@@ -174,18 +155,11 @@ export default class PropertyPacket<T> {
      * @param value The new value of the property
      */
     setFor(player: Player, value: T) {
-        if (IS_EDIT) {
-            this.virtualPerPlayer!.set(player, value);
-            // Simulate firing to the specific player
-            if (this.changed) {
-                this.changed.fire(value);
-            }
-            return;
-        }
-
         if (player.Parent !== undefined) {
             this.perPlayer!.set(player, value);
         }
+        if (this.sendVirtually())
+            return;
         this.signalPacket.toClient(player, value as T);
     }
 
@@ -208,16 +182,9 @@ export default class PropertyPacket<T> {
      * Should only be used on the server.
      */
     clearFor(player: Player) {
-        if (IS_EDIT) {
-            this.virtualPerPlayer!.set(player, undefined);
-            // Simulate firing the global value to the player
-            if (this.changed && this.virtualValue !== undefined) {
-                this.changed.fire(this.virtualValue);
-            }
-            return;
-        }
-
         this.perPlayer!.set(player, undefined);
+        if (this.sendVirtually())
+            return;
         this.signalPacket.toClient(player, this.value);
     }
 
@@ -240,14 +207,6 @@ export default class PropertyPacket<T> {
      * @param predicate The predicate to filter players
      */
     clearFilter(predicate: (player: Player) => boolean) {
-        if (IS_EDIT) {
-            // In edit mode, simulate clearing for filtered players
-            if (this.changed && this.virtualValue !== undefined) {
-                this.changed.fire(this.virtualValue);
-            }
-            return;
-        }
-
         for (const player of Players.GetPlayers()) {
             if (predicate(player)) {
                 this.clearFor(player);
@@ -261,8 +220,9 @@ export default class PropertyPacket<T> {
      */
     get() {
         if (IS_EDIT) {
-            return this.virtualValue;
+            return this.perPlayer?.get(Players.LocalPlayer) ?? this.value;
         }
+
         return this.value;
     }
 
@@ -274,11 +234,6 @@ export default class PropertyPacket<T> {
      * @returns The value of the property for the player
      */
     getFor(player: Player) {
-        if (IS_EDIT) {
-            const playerVal = this.virtualPerPlayer!.get(player);
-            return playerVal === undefined ? this.virtualValue : playerVal;
-        }
-
         const playerVal = this.perPlayer!.get(player);
         return playerVal === undefined ? this.value : playerVal;
     }
@@ -293,22 +248,22 @@ export default class PropertyPacket<T> {
     observe(handler: (value: T) => void) {
         task.spawn(() => {
             while (task.wait()) {
-                const currentValue = IS_EDIT ? this.virtualValue : this.value;
-                if (currentValue !== undefined)
+                if (this.value !== undefined)
                     break;
             }
-            const currentValue = IS_EDIT ? this.virtualValue! : this.value;
-            handler(currentValue);
+            handler(this.value);
         });
         return this.changed.connect((value) => handler(value));
     }
 
     /**
-     * Destroys the property and cleans up any resources.
+     * Disconnects all connections and destroys the remote event.
+     * Should be called when the property is no longer needed to prevent memory leaks.
      */
     destroy() {
-        this.playerRemoving?.Disconnect();
-        this.signalPacket.destroy();
-        table.clear(this);
+        if (this.playerRemoving !== undefined) {
+            this.playerRemoving.Disconnect();
+        }
+        this.signalPacket.remoteEvent.Destroy();
     }
 }
