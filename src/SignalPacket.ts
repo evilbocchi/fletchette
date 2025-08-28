@@ -56,9 +56,9 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toClient(player: Player, ...args: Parameters<T>): void {
-        if (this.virtualServerHandlers) {
-            for (const handler of this.virtualServerHandlers) {
-                handler(player, ...args);
+        if (this.virtualClientHandlers) {
+            for (const handler of this.virtualClientHandlers) {
+                handler(...args);
             }
             return;
         }
@@ -74,9 +74,9 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toAllClients(...args: Parameters<T>): void {
-        if (this.virtualServerHandlers) {
-            for (const handler of this.virtualServerHandlers) {
-                handler(Players.LocalPlayer, ...args);
+        if (this.virtualClientHandlers) {
+            for (const handler of this.virtualClientHandlers) {
+                handler(...args);
             }
             return;
         }
@@ -141,9 +141,9 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toServer(...args: Parameters<T>): void {
-        if (this.virtualClientHandlers) {
-            for (const handler of this.virtualClientHandlers) {
-                handler(...args);
+        if (this.virtualServerHandlers) {
+            for (const handler of this.virtualServerHandlers) {
+                handler(Players.LocalPlayer, ...args);
             }
             return;
         }

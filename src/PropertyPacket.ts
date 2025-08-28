@@ -85,14 +85,16 @@ export default class PropertyPacket<T> {
         }
     }
 
-    private previousVirtualValue?: T;
+    /**
+     * Sends the property change virtually in edit mode.
+     * 
+     * Does not actually check for changes, this will always fire the changed signal.
+     * 
+     * @returns Whether the signal was sent
+     */
     private sendVirtually() {
         if (IS_EDIT) {
-            const found = this.get();
-            if (this.previousVirtualValue !== found) {
-                this.changed.fire(found);
-            }
-            this.previousVirtualValue = found;
+            this.changed.fire(this.get());
             return true;
         }
         return false;
