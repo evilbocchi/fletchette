@@ -2,6 +2,7 @@ import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
 import { IS_EDIT } from "./Environment";
 import PacketStorage from "./PacketStorage";
+import { Players } from "@rbxts/services";
 
 /**
  * A request packet that can be sent between client and server.
@@ -54,7 +55,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      */
     toServer(...args: Parameters<T>): B {
         if (IS_EDIT) {
-            return this.virtualClientHandler?.(...args)!;
+            return this.virtualServerHandler?.(Players.LocalPlayer, ...args)!;
         }
 
         const serialized = this.serializer.serialize(args);
@@ -71,7 +72,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      */
     toClient(player: Player, ...args: Parameters<T>): B {
         if (IS_EDIT) {
-            return this.virtualServerHandler?.(player, ...args)!;
+            return this.virtualClientHandler?.(...args)!;
         }
 
         const serialized = this.serializer.serialize(args);
