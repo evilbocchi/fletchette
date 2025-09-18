@@ -3,3 +3,5 @@
 /out
 /include
 *.tsbuildinfo
+flamework.build
+test.rbxlx

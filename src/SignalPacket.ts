@@ -27,9 +27,9 @@ export default class SignalPacket<T> {
     serializer: Serializer<Parameters<T>>;
 
     /** Set of virtual handlers that can be used to handle the signal on the client */
-    virtualClientHandlers?: Set<(...args: Parameters<T>) => void>;
+    readonly virtualClientHandlers = new Set<(...args: Parameters<T>) => void>();
     /** Set of virtual handlers that can be used to handle the signal on the server */
-    virtualServerHandlers?: Set<(player: Player, ...args: Parameters<T>) => void>;
+    readonly virtualServerHandlers = new Set<(player: Player, ...args: Parameters<T>) => void>();
 
     /**
      * Create a SignalPacket with a unique id. Metadata can be provided to specify how the data should be serialized.
@@ -42,10 +42,6 @@ export default class SignalPacket<T> {
         this.id = id;
         this.serializer = createBinarySerializer<Parameters<T>>(meta);
         this.remoteEvent = PacketStorage.getSignalRemote(id, isUnreliable);
-        if (IS_EDIT) {
-            this.virtualClientHandlers = new Set();
-            this.virtualServerHandlers = new Set();
-        }
     }
 
     /**
@@ -56,7 +52,7 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toClient(player: Player, ...args: Parameters<T>): void {
-        if (this.virtualClientHandlers) {
+        if (IS_EDIT) {
             for (const handler of this.virtualClientHandlers) {
                 handler(...args);
             }
@@ -74,7 +70,7 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toAllClients(...args: Parameters<T>): void {
-        if (this.virtualClientHandlers) {
+        if (IS_EDIT) {
             for (const handler of this.virtualClientHandlers) {
                 handler(...args);
             }
@@ -141,7 +137,7 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toServer(...args: Parameters<T>): void {
-        if (this.virtualServerHandlers) {
+        if (IS_EDIT) {
             for (const handler of this.virtualServerHandlers) {
                 handler(Players.LocalPlayer, ...args);
             }
@@ -159,18 +155,16 @@ export default class SignalPacket<T> {
      * @param handler The specific handler to create a virtual connection for
      * @returns The virtual connection object
      */
-    private createVirtualHandler<T>(handlers?: Set<T>, handler?: T): RBXScriptConnection | undefined {
-        if (handlers && handler) {
-            handlers.add(handler);
-            const virtualConnection = {
-                Connected: true,
-                Disconnect: () => {
-                    virtualConnection.Connected = false;
-                    handlers.delete(handler);
-                }
-            };
-            return virtualConnection;
-        }
+    private createVirtualHandler<T>(handlers: Set<T>, handler: T): RBXScriptConnection {
+        handlers.add(handler);
+        const virtualConnection = {
+            Connected: true,
+            Disconnect: () => {
+                virtualConnection.Connected = false;
+                handlers.delete(handler);
+            }
+        };
+        return virtualConnection;
     }
 
     /**
@@ -182,9 +176,8 @@ export default class SignalPacket<T> {
      * @returns The connection object
      */
     fromServer(handler: (...args: Parameters<T>) => void): RBXScriptConnection {
-        const virtualConnection = this.createVirtualHandler(this.virtualClientHandlers, handler);
-        if (virtualConnection) {
-            return virtualConnection;
+        if (IS_EDIT) {
+            return this.createVirtualHandler(this.virtualClientHandlers, handler);
         }
 
         return this.remoteEvent!.OnClientEvent.Connect((buffer, blobs) => handler(...this.serializer.deserialize(buffer, blobs)));
@@ -198,9 +191,8 @@ export default class SignalPacket<T> {
      * @param handler The function to call when the signal is fired
      */
     fromClient(handler: (player: Player, ...args: Parameters<T>) => void): RBXScriptConnection {
-        const virtualConnection = this.createVirtualHandler(this.virtualServerHandlers, handler);
-        if (virtualConnection) {
-            return virtualConnection;
+        if (IS_EDIT) {
+            return this.createVirtualHandler(this.virtualServerHandlers, handler);
         }
 
         return this.remoteEvent!.OnServerEvent.Connect((player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[])));

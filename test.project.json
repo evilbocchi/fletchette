@@ -1,0 +1,27 @@
+{
+	"name": "fletchette",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"Fletchette": {
+				"$path": "out"
+			},
+			"rbxts_include": {
+				"$path": "include",
+				"node_modules": {
+					"$className": "Folder",
+					"@rbxts": {
+						"$path": "node_modules/@rbxts"
+					},
+					"@flamework": {
+						"$path": "node_modules/@flamework"
+					},
+					"@antivivi": {
+						"$path": "node_modules/@antivivi"
+					}
+				}
+			}
+		}
+	}
+}
