@@ -8,7 +8,7 @@ import { signal } from "../PacketMacro";
 export = function () {
     describe("signal", () => {
         it("virtually sends data", () => {
-            const packet = signal<(test1: DataType.u16, test2: string, test3: { hamster123: DataType.u32; }) => void>();
+            const packet = signal<(test1: DataType.u16, test2: string, test3: { hamster123: DataType.u32 }) => void>();
             expect(packet).to.be.ok();
 
             let received = false;
@@ -31,7 +31,7 @@ export = function () {
         });
 
         it("actually sends data", () => {
-            const packet = signal<(test1: DataType.u16, test2: string, test3: { hamster123: DataType.u32; }) => void>();
+            const packet = signal<(test1: DataType.u16, test2: string, test3: { hamster123: DataType.u32 }) => void>();
             expect(packet).to.be.ok();
 
             let received = false;

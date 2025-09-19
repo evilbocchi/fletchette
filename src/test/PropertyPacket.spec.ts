@@ -21,7 +21,7 @@ export = function () {
         });
 
         it("virtually sets and gets property value", () => {
-            const prop = property<{ score: DataType.u32; name: string; }>();
+            const prop = property<{ score: DataType.u32; name: string }>();
             expect(prop).to.be.ok();
 
             const testData = { score: 1000, name: "player1" };
@@ -112,7 +112,7 @@ export = function () {
         });
 
         it("virtually sets value for multiple players", () => {
-            const prop = property<{ level: DataType.u16; }>();
+            const prop = property<{ level: DataType.u16 }>();
             expect(prop).to.be.ok();
 
             // In test environment, Players.LocalPlayer might be nil
@@ -244,17 +244,17 @@ export = function () {
                     stats: {
                         health: 100.0,
                         mana: 50.5,
-                        level: 25
+                        level: 25,
                     },
                     inventory: [
                         { itemId: 1, quantity: 10 },
-                        { itemId: 2, quantity: 5 }
-                    ]
+                        { itemId: 2, quantity: 5 },
+                    ],
                 },
                 settings: {
                     soundEnabled: true,
-                    graphicsQuality: "high"
-                }
+                    graphicsQuality: "high",
+                },
             };
 
             const prop = property<ComplexProperty>(complexData);
@@ -272,11 +272,11 @@ export = function () {
         });
 
         it("actually sends property data", () => {
-            const prop = property<{ message: string; timestamp: DataType.f64; }>();
+            const prop = property<{ message: string; timestamp: DataType.f64 }>();
             expect(prop).to.be.ok();
 
             let changeReceived = false;
-            let receivedData: { message: string; timestamp: DataType.f64; } | undefined = undefined;
+            let receivedData: { message: string; timestamp: DataType.f64 } | undefined = undefined;
 
             // Connect to changes
             const connection = prop.changed.connect((value) => {

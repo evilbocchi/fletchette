@@ -6,11 +6,11 @@ import PacketStorage from "./PacketStorage";
 
 /**
  * SignalPacket is a wrapper around RemoteEvent that provides a type-safe way to send data between server and client.
- * 
+ *
  * @typeParam T The function signature for the signal
  */
 export default class SignalPacket<T> {
-
+    readonly className = "SignalPacket";
     /**
      * Unique identifier for the signal
      */
@@ -33,7 +33,7 @@ export default class SignalPacket<T> {
 
     /**
      * Create a SignalPacket with a unique id. Metadata can be provided to specify how the data should be serialized.
-     * 
+     *
      * @param id Unique identifier for the signal
      * @param isUnreliable Whether the signal should be unreliable. Default is false.
      * @param meta Metadata for serialization
@@ -47,7 +47,7 @@ export default class SignalPacket<T> {
     /**
      * Fire the signal to a specific player.
      * Used by the server to send data to a client.
-     * 
+     *
      * @param player The player to send the signal to
      * @param args The data to send
      */
@@ -66,7 +66,7 @@ export default class SignalPacket<T> {
     /**
      * Fire the signal to all players.
      * Used by the server to send data to all clients.
-     * 
+     *
      * @param args The data to send
      */
     toAllClients(...args: Parameters<T>): void {
@@ -84,7 +84,7 @@ export default class SignalPacket<T> {
     /**
      * Fire the signal to all players in a radius.
      * Used by the server to send data to all clients within a certain radius.
-     * 
+     *
      * @param position The position to center the radius around
      * @param radius The radius to send the signal to
      * @param args The data to send
@@ -93,8 +93,7 @@ export default class SignalPacket<T> {
         const players = Players.GetPlayers();
         for (const player of players) {
             const character = player.Character;
-            if (character === undefined || character.PrimaryPart === undefined)
-                continue;
+            if (character === undefined || character.PrimaryPart === undefined) continue;
             if (character.PrimaryPart.Position.sub(position).Magnitude <= radius) {
                 this.toClient(player, ...args);
             }
@@ -104,7 +103,7 @@ export default class SignalPacket<T> {
     /**
      * Fire the signal to all players except one.
      * Used by the server to send data to all clients except one.
-     * 
+     *
      * @param player The player to exclude
      * @param args The data to send
      */
@@ -120,7 +119,7 @@ export default class SignalPacket<T> {
     /**
      * Fire the signal to a list of players.
      * Used by the server to send data to a specific group of clients.
-     * 
+     *
      * @param players The list of players to send the signal to
      * @param args The data to send
      */
@@ -133,7 +132,7 @@ export default class SignalPacket<T> {
     /**
      * Inform the server of an event.
      * Used by the client to send data to the server.
-     * 
+     *
      * @param args The data to send
      */
     toServer(...args: Parameters<T>): void {
@@ -150,7 +149,7 @@ export default class SignalPacket<T> {
 
     /**
      * Create a virtual connection for a handler, used when cross-boundary communication should be simulated.
-     * 
+     *
      * @param handlers The set of handlers to manage
      * @param handler The specific handler to create a virtual connection for
      * @returns The virtual connection object
@@ -162,7 +161,7 @@ export default class SignalPacket<T> {
             Disconnect: () => {
                 virtualConnection.Connected = false;
                 handlers.delete(handler);
-            }
+            },
         };
         return virtualConnection;
     }
@@ -171,7 +170,7 @@ export default class SignalPacket<T> {
      * Connect a client-side handler to the signal.
      * Used by the client to listen for data from the server.
      * Hence, this function should only be called on a client environment.
-     * 
+     *
      * @param handler The function to call when the signal is fired
      * @returns The connection object
      */
@@ -180,14 +179,16 @@ export default class SignalPacket<T> {
             return this.createVirtualHandler(this.virtualClientHandlers, handler);
         }
 
-        return this.remoteEvent!.OnClientEvent.Connect((buffer, blobs) => handler(...this.serializer.deserialize(buffer, blobs)));
+        return this.remoteEvent!.OnClientEvent.Connect((buffer, blobs) =>
+            handler(...this.serializer.deserialize(buffer, blobs)),
+        );
     }
 
     /**
      * Connect a server-side handler to the signal.
      * Used by the server to listen for data from the client.
      * Hence, this function should only be called on a server environment.
-     * 
+     *
      * @param handler The function to call when the signal is fired
      */
     fromClient(handler: (player: Player, ...args: Parameters<T>) => void): RBXScriptConnection {
@@ -195,7 +196,9 @@ export default class SignalPacket<T> {
             return this.createVirtualHandler(this.virtualServerHandlers, handler);
         }
 
-        return this.remoteEvent!.OnServerEvent.Connect((player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[])));
+        return this.remoteEvent!.OnServerEvent.Connect((player, buffer, blobs) =>
+            handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[])),
+        );
     }
 
     /**

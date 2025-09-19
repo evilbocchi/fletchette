@@ -1,19 +1,19 @@
 import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
+import { Players } from "@rbxts/services";
 import Environment from "./Environment";
 import PacketStorage from "./PacketStorage";
-import { Players } from "@rbxts/services";
 
 /**
  * A request packet that can be sent between client and server.
  * This packet can be used to send data to the server and receive a response, or toClient a client for a response.
- * 
+ *
  * @typeParam V The data being sent by the request
  * @typeParam B The data being received by the request
  * @typeParam T The function signature for the request
  */
 export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B> {
-
+    readonly className = "RequestPacket";
     /**
      * Unique identifier for the request
      */
@@ -36,7 +36,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
 
     /**
      * Create a RequestPacket with a unique id. Metadata can be provided to specify how the data should be serialized.
-     * 
+     *
      * @param id Unique identifier for the request
      * @param meta Metadata for serialization
      */
@@ -50,12 +50,14 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * Invoke the request on the server.
      * The server should have a handler set up with {@link fromClient} that can handle the toServer.
      * Hence, this function should only be called on the client.
-     * 
+     *
      * @param args The data to send
      */
     toServer(...args: Parameters<T>): B {
         if (Environment.IS_VIRTUAL) {
-            return this.virtualServerHandler?.(Players.LocalPlayer, ...args)!;
+            const handler = this.virtualServerHandler;
+            if (!handler) throw `No virtual server handler set for RequestPacket ${this.id}`;
+            return handler(Players.LocalPlayer, ...args);
         }
 
         const serialized = this.serializer.serialize(args);
@@ -66,13 +68,15 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * Query a client for a response.
      * The client should have a handler set up with {@link fromServer} that can handle the toClient.
      * Hence, this function should only be called on the server.
-     * 
+     *
      * @param player The player to send the toClient to
      * @param args The data to send
      */
     toClient(player: Player, ...args: Parameters<T>): B {
         if (Environment.IS_VIRTUAL) {
-            return this.virtualClientHandler?.(...args)!;
+            const handler = this.virtualClientHandler;
+            if (!handler) throw `No virtual client handler set for RequestPacket ${this.id}`;
+            return handler(...args);
         }
 
         const serialized = this.serializer.serialize(args);
@@ -82,7 +86,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
     /**
      * Set up a handler for the client to respond to {@link toClient}.
      * This function should only be called on the client to listen for queries made by the server.
-     * 
+     *
      * @param handler The handler to call when a toClient is made
      */
     fromServer(handler: (...args: Parameters<T>) => B): void {
@@ -97,7 +101,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
     /**
      * Set up a handler for the server to respond to {@link toServer}.
      * This function should only be called on the server to listen for requests made by the client.
-     * 
+     *
      * @param handler The handler to call when a request is made
      */
     fromClient(handler: (player: Player, ...args: Parameters<T>) => B): void {
@@ -106,7 +110,8 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
             return;
         }
 
-        this.remoteFunction!.OnServerInvoke = (player, buffer, blobs) => handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[]));
+        this.remoteFunction!.OnServerInvoke = (player, buffer, blobs) =>
+            handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[]));
     }
 
     /**

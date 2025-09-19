@@ -34,6 +34,8 @@
         "@typescript-eslint/parser": "^8.41.0",
         "concurrently": "^9.2.1",
         "eslint": "^9.34.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.4",
         "eslint-plugin-roblox-ts": "^1.1.0",
         "roblox-ts": "^3.0.0",
         "rojo": "^1.0.2",
@@ -42,7 +44,8 @@
         "typedoc-plugin-extras": "^4.0.1",
         "typedoc-plugin-missing-exports": "^4.1.0",
         "typedoc-plugin-rename-defaults": "^0.7.3",
-        "typescript": "^5.5.3"
+        "typescript": "^5.5.3",
+        "typescript-eslint": "^8.44.0"
     },
     "dependencies": {
         "@antivivi/lemon-signal": "^1.2.4",

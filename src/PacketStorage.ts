@@ -6,7 +6,6 @@ import Environment from "./Environment";
  * Remotes are stored in ReplicatedStorage.PacketStorage.
  */
 export default class PacketStorage {
-
     /**
      * PacketStorage folder in ReplicatedStorage.
      */
@@ -14,30 +13,27 @@ export default class PacketStorage {
         if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             const PacketStorage = new Instance("Folder");
             PacketStorage.Name = "PacketStorage";
-            if (!Environment.IS_VIRTUAL)
-                PacketStorage.Parent = ReplicatedStorage;
+            if (!Environment.IS_VIRTUAL) PacketStorage.Parent = ReplicatedStorage;
             return PacketStorage;
-        }
-        else {
+        } else {
             return ReplicatedStorage.WaitForChild("PacketStorage") as Folder;
         }
     })();
 
     /**
      * Retrieve a RemoteEvent from PacketStorage. If the RemoteEvent does not exist, it will be created.
-     * 
      * @param id Unique identifier for the remote
      * @param isUnreliable Whether the remote should be unreliable. Default is false.
      */
     static getSignalRemote(id: string | number, isUnreliable?: boolean) {
         let remote: RemoteEvent;
         if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
-            remote = (new Instance(isUnreliable === true ? "UnreliableRemoteEvent" : "RemoteEvent") as BaseRemoteEvent) as RemoteEvent;
+            remote = new Instance(
+                isUnreliable === true ? "UnreliableRemoteEvent" : "RemoteEvent",
+            ) as BaseRemoteEvent as RemoteEvent;
             remote.Name = tostring(id);
-            if (!Environment.IS_VIRTUAL)
-                remote.Parent = this.PACKET_STORAGE;
-        }
-        else {
+            if (!Environment.IS_VIRTUAL) remote.Parent = this.PACKET_STORAGE;
+        } else {
             remote = this.PACKET_STORAGE.WaitForChild(id) as RemoteEvent;
         }
         return remote;
@@ -45,7 +41,6 @@ export default class PacketStorage {
 
     /**
      * Retrieve a RemoteFunction from PacketStorage. If the RemoteFunction does not exist, it will be created.
-     * 
      * @param id Unique identifier for the remote
      */
     static getRequestRemote(id: string | number) {
@@ -53,12 +48,10 @@ export default class PacketStorage {
         if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             remote = new Instance("RemoteFunction");
             remote.Name = tostring(id);
-            if (!Environment.IS_VIRTUAL)
-                remote.Parent = this.PACKET_STORAGE;
-        }
-        else {
+            if (!Environment.IS_VIRTUAL) remote.Parent = this.PACKET_STORAGE;
+        } else {
             remote = this.PACKET_STORAGE.WaitForChild(id) as RemoteFunction;
         }
         return remote;
-    };
+    }
 }

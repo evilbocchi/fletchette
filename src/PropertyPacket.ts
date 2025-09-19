@@ -8,11 +8,10 @@ import Environment from "./Environment";
 /**
  * PropertyPacket is a wrapper around SignalPacket that provides a type-safe way to send data between server and client.
  * This implements a property system where the value can be set for all players, a specific player, or a filtered list of players.
- * 
+ *
  * @typeParam T The type of the property
  */
 export default class PropertyPacket<T> {
-
     /**
      * SignalPacket used to send the property
      */
@@ -41,22 +40,25 @@ export default class PropertyPacket<T> {
 
     /**
      * Creates a new PropertyPacket.
-     * 
+     *
      * @param id The id of the property
      * @param initialValue The initial value of the property
      * @param isUnreliable Whether the property should be sent unreliably. Default is false.
      * @param meta Metadata for the serializer
      */
-    constructor(id: string, initialValue?: T, isUnreliable?: boolean, meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>) {
+    constructor(
+        id: string,
+        initialValue?: T,
+        isUnreliable?: boolean,
+        meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
+    ) {
         this.signalPacket = new SignalPacket<(value: T) => void>(id, isUnreliable === true, meta);
-        if (initialValue !== undefined)
-            this.value = initialValue;
+        if (initialValue !== undefined) this.value = initialValue;
 
         if (Environment.IS_VIRTUAL) {
             this.perPlayer = new Map();
             this.changed = new Signal();
-        }
-        else if (Environment.IS_SERVER) {
+        } else if (Environment.IS_SERVER) {
             this.signalPacket.remoteEvent.SetAttribute("RemoteProperty", true);
             this.perPlayer = new Map();
             this.playerRemoving = Players.PlayerRemoving.Connect((player) => this.perPlayer!.delete(player));
@@ -71,8 +73,7 @@ export default class PropertyPacket<T> {
                 }
                 this.signalPacket.toClient(player, result);
             });
-        }
-        else {
+        } else {
             this.changed = new Signal();
             this.signalPacket.fromServer((value) => {
                 const changed = value !== this.value;
@@ -87,9 +88,9 @@ export default class PropertyPacket<T> {
 
     /**
      * Sends the property change virtually in edit mode.
-     * 
+     *
      * Does not actually check for changes, this will always fire the changed signal.
-     * 
+     *
      * @returns Whether the signal was sent
      */
     private sendVirtually() {
@@ -104,29 +105,27 @@ export default class PropertyPacket<T> {
      * Sets the value of the property.
      * This will clear the perPlayer map and fire the signal to all players.
      * Should only be used on the server.
-     * 
+     *
      * @param value The new value of the property
      */
     set(value: T) {
         this.value = value;
         this.perPlayer!.clear();
 
-        if (this.sendVirtually())
-            return;
+        if (this.sendVirtually()) return;
         this.signalPacket.toAllClients(value);
     }
 
     /**
      * Sets the value of the property for players that do not have a value set.
      * Should only be used on the server.
-     * 
+     *
      * @param value The new value of the property
      */
     setTop(value: T) {
         this.value = value;
 
-        if (this.sendVirtually())
-            return;
+        if (this.sendVirtually()) return;
         for (const player of Players.GetPlayers()) {
             if (this.perPlayer!.get(player) === undefined) {
                 this.signalPacket.toClient(player, value as T);
@@ -137,7 +136,7 @@ export default class PropertyPacket<T> {
     /**
      * Sets the value of the property for players that pass the predicate.
      * Should only be used on the server.
-     * 
+     *
      * @param predicate The predicate to filter players
      * @param value The new value of the property
      */
@@ -152,7 +151,7 @@ export default class PropertyPacket<T> {
     /**
      * Sets the value of the property for a specific player.
      * Should only be used on the server.
-     * 
+     *
      * @param player The player to set the value for
      * @param value The new value of the property
      */
@@ -160,15 +159,14 @@ export default class PropertyPacket<T> {
         if (player.Parent !== undefined) {
             this.perPlayer!.set(player, value);
         }
-        if (this.sendVirtually())
-            return;
+        if (this.sendVirtually()) return;
         this.signalPacket.toClient(player, value as T);
     }
 
     /**
      * Sets the value of the property for a list of players.
      * Should only be used on the server.
-     * 
+     *
      * @param players The list of players to set the value for
      * @param value The new value of the property
      */
@@ -185,15 +183,14 @@ export default class PropertyPacket<T> {
      */
     clearFor(player: Player) {
         this.perPlayer!.set(player, undefined);
-        if (this.sendVirtually())
-            return;
+        if (this.sendVirtually()) return;
         this.signalPacket.toClient(player, this.value);
     }
 
     /**
      * Clears the value of the property for a list of players.
      * Should only be used on the server.
-     * 
+     *
      * @param players The list of players to clear the value for
      */
     clearForList(players: Player[]) {
@@ -205,7 +202,7 @@ export default class PropertyPacket<T> {
     /**
      * Clears the value of the property for players that pass the predicate.
      * Should only be used on the server.
-     * 
+     *
      * @param predicate The predicate to filter players
      */
     clearFilter(predicate: (player: Player) => boolean) {
@@ -231,7 +228,7 @@ export default class PropertyPacket<T> {
     /**
      * Returns the value of the property for a specific player.
      * Should only be used on the server.
-     * 
+     *
      * @param player The player to get the value for
      * @returns The value of the property for the player
      */
@@ -243,15 +240,14 @@ export default class PropertyPacket<T> {
     /**
      * Observes the property for changes. Unlike {@link changed}, this will fire the handler immediately if the value is already set.
      * Else, it will wait for the value to be set and then fire the handler.
-     * 
+     *
      * @param handler The handler to call when the property changes
      * @returns A connection that can be disconnected to stop observing the property
      */
     observe(handler: (value: T) => void) {
         task.spawn(() => {
             while (task.wait()) {
-                if (this.value !== undefined)
-                    break;
+                if (this.value !== undefined) break;
             }
             handler(this.value);
         });

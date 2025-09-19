@@ -5,7 +5,7 @@
 // import Environment from "../Environment";
 // import { request } from "../PacketMacro";
 
-export = function() {};
+export = function () {};
 
 // export = function () {
 //     describe("request", () => {
