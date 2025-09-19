@@ -26,7 +26,7 @@ npm install @rbxts/fletchette
 ### Importing
 
 ```ts
-import { signal, request, property } from "@rbxts/fletchette";
+import { signal, request, property, packet } from "@rbxts/fletchette";
 ```
 
 ### SignalPacket
@@ -107,6 +107,37 @@ playerHealth.set(player, 80);
 // Client code
 playerHealth.observe((newHealth) => {
   healthBar.Size = new UDim2(newHealth / 100, 0, 1, 0);
+});
+```
+
+### Smart Packet Creation
+
+The `packet` function automatically chooses the appropriate packet type based on your TypeScript types:
+
+```ts
+// Creates a SignalPacket (void return type)
+const playerJoined = packet<(player: Player, level: number) => void>();
+
+// Creates a RequestPacket (non-void return type)
+const getPlayerData = packet<(userId: number) => PlayerData>();
+
+// Creates a PropertyPacket (initial value provided)
+const playerHealth = packet<number>({ initialValue: 100 });
+
+// Creates a PropertyPacket (non-function type)
+const gameSettings = packet<GameSettings>();
+```
+
+The `packet` function supports all the same options as the individual packet creators:
+
+```ts
+// With unreliable transmission
+const fastUpdate = packet<(position: Vector3) => void>({ isUnreliable: true });
+
+// PropertyPacket with initial value and unreliable transmission
+const playerPosition = packet({ 
+  initialValue: new Vector3(0, 0, 0), 
+  isUnreliable: true 
 });
 ```
 

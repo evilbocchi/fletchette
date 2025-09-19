@@ -1,5 +1,5 @@
 {
-    "name": "@antivivi/fletchette",
+    "name": "@rbxts/fletchette",
     "version": "3.0.3",
     "description": "Simple networking library for roblox-ts.",
     "main": "out/init.lua",

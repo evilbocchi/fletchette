@@ -4,7 +4,7 @@
     "placeInternalsInOwningModule": true,
     "highlightLanguages": ["lua", "typescript", "bash"],
     "favicon": "assets/icon.png",
-    "customTitle": "@antivivi/fletchette",
+    "customTitle": "@rbxts/fletchette",
     "customDescription": "A type-safe networking library for roblox-ts that simplifies client-server communication.",
     "entryPoints": ["src/index.ts"],
     "excludeExternals": true,
