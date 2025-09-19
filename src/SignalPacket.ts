@@ -1,7 +1,7 @@
 import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
 import { Players } from "@rbxts/services";
-import { IS_EDIT } from "./Environment";
+import Environment from "./Environment";
 import PacketStorage from "./PacketStorage";
 
 /**
@@ -52,7 +52,7 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toClient(player: Player, ...args: Parameters<T>): void {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             for (const handler of this.virtualClientHandlers) {
                 handler(...args);
             }
@@ -70,7 +70,7 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toAllClients(...args: Parameters<T>): void {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             for (const handler of this.virtualClientHandlers) {
                 handler(...args);
             }
@@ -137,7 +137,7 @@ export default class SignalPacket<T> {
      * @param args The data to send
      */
     toServer(...args: Parameters<T>): void {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             for (const handler of this.virtualServerHandlers) {
                 handler(Players.LocalPlayer, ...args);
             }
@@ -176,7 +176,7 @@ export default class SignalPacket<T> {
      * @returns The connection object
      */
     fromServer(handler: (...args: Parameters<T>) => void): RBXScriptConnection {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             return this.createVirtualHandler(this.virtualClientHandlers, handler);
         }
 
@@ -191,7 +191,7 @@ export default class SignalPacket<T> {
      * @param handler The function to call when the signal is fired
      */
     fromClient(handler: (player: Player, ...args: Parameters<T>) => void): RBXScriptConnection {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             return this.createVirtualHandler(this.virtualServerHandlers, handler);
         }
 

@@ -1,6 +1,6 @@
 import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
-import { IS_EDIT } from "./Environment";
+import Environment from "./Environment";
 import PacketStorage from "./PacketStorage";
 import { Players } from "@rbxts/services";
 
@@ -54,7 +54,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param args The data to send
      */
     toServer(...args: Parameters<T>): B {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             return this.virtualServerHandler?.(Players.LocalPlayer, ...args)!;
         }
 
@@ -71,7 +71,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param args The data to send
      */
     toClient(player: Player, ...args: Parameters<T>): B {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             return this.virtualClientHandler?.(...args)!;
         }
 
@@ -86,7 +86,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param handler The handler to call when a toClient is made
      */
     fromServer(handler: (...args: Parameters<T>) => B): void {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             this.virtualClientHandler = handler;
             return;
         }
@@ -101,7 +101,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param handler The handler to call when a request is made
      */
     fromClient(handler: (player: Player, ...args: Parameters<T>) => B): void {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             this.virtualServerHandler = handler;
             return;
         }

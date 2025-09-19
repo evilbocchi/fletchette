@@ -1,9 +1,9 @@
 /// <reference types="@rbxts/testez/globals" />
 
 import { DataType } from "@rbxts/flamework-binary-serializer";
-import { signal } from "../PacketMacro";
-import { setVirtualState } from "../Environment";
 import { Players } from "@rbxts/services";
+import Environment from "../Environment";
+import { signal } from "../PacketMacro";
 
 export = function () {
     describe("signal", () => {
@@ -44,9 +44,11 @@ export = function () {
                 received = true;
             });
 
-            setVirtualState(false);
+            Environment.setVirtualState(false);
+            expect(Environment.IS_VIRTUAL).to.equal(false);
             packet.toServer(123, "hello", { hamster123: 456 });
-            setVirtualState(true);
+            Environment.setVirtualState(true);
+            expect(Environment.IS_VIRTUAL).to.equal(true);
 
             let t = 0;
             while (!received && t < 1) {

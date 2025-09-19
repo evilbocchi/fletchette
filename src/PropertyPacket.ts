@@ -2,8 +2,8 @@ import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
 import { Players } from "@rbxts/services";
-import { IS_EDIT, IS_SERVER } from "./Environment";
 import SignalPacket from "./SignalPacket";
+import Environment from "./Environment";
 
 /**
  * PropertyPacket is a wrapper around SignalPacket that provides a type-safe way to send data between server and client.
@@ -52,11 +52,11 @@ export default class PropertyPacket<T> {
         if (initialValue !== undefined)
             this.value = initialValue;
 
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             this.perPlayer = new Map();
             this.changed = new Signal();
         }
-        else if (IS_SERVER) {
+        else if (Environment.IS_SERVER) {
             this.signalPacket.remoteEvent.SetAttribute("RemoteProperty", true);
             this.perPlayer = new Map();
             this.playerRemoving = Players.PlayerRemoving.Connect((player) => this.perPlayer!.delete(player));
@@ -93,7 +93,7 @@ export default class PropertyPacket<T> {
      * @returns Whether the signal was sent
      */
     private sendVirtually() {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             this.changed.fire(this.get());
             return true;
         }
@@ -221,7 +221,7 @@ export default class PropertyPacket<T> {
      * For the server, this will ignore the perPlayer map and return the value.
      */
     get() {
-        if (IS_EDIT) {
+        if (Environment.IS_VIRTUAL) {
             return this.perPlayer?.get(Players.LocalPlayer) ?? this.value;
         }
 

@@ -1,21 +1,27 @@
 import { RunService } from "@rbxts/services";
 
-/**
-    * Whether the current environment is server.
-    */
-export const IS_SERVER = RunService.IsServer();
+class Environment {
+    /**
+     * Whether the current environment is server.
+     */
+    static IS_SERVER = RunService.IsServer();
 
-/**
- * Whether the current environment is in edit mode.
- */
-export let IS_EDIT = RunService.IsStudio() && !RunService.IsRunning();
+    /**
+     * Whether the current environment is in virtual mode (edit mode).
+     * This is true when in Studio and not playing.
+     * Virtual mode enables features like virtual properties that can be used in edit mode.
+     */
+    static IS_VIRTUAL = RunService.IsStudio() && !RunService.IsRunning();
 
-/**
- * Sets whether Fletchette should treat the environment as edit mode,
- * enabling features like virtual properties.
- *
- * @param value Whether to enable edit mode.
- */
-export function setVirtualState(value: boolean) {
-    IS_EDIT = value;
+    /**
+     * Sets whether Fletchette should treat the environment as virtual mode,
+     * enabling features like virtual properties.
+     *
+     * @param value Whether to enable virtual mode.
+     */
+    static setVirtualState(value: boolean) {
+        this.IS_VIRTUAL = value;
+    }
 }
+
+export = Environment;

@@ -21,6 +21,7 @@
     "types": "out/index.d.ts",
     "files": [
         "out",
+        "!out/test",
         "!**/*.tsbuildinfo"
     ],
     "publishConfig": {

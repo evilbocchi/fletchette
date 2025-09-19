@@ -1,5 +1,5 @@
 import { ReplicatedStorage } from "@rbxts/services";
-import { IS_EDIT, IS_SERVER } from "./Environment";
+import Environment from "./Environment";
 
 /**
  * Utility functions for creating RemoteEvents and RemoteFunctions.
@@ -11,10 +11,10 @@ export default class PacketStorage {
      * PacketStorage folder in ReplicatedStorage.
      */
     static readonly PACKET_STORAGE = (() => {
-        if (IS_SERVER || IS_EDIT) {
+        if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             const PacketStorage = new Instance("Folder");
             PacketStorage.Name = "PacketStorage";
-            if (!IS_EDIT)
+            if (!Environment.IS_VIRTUAL)
                 PacketStorage.Parent = ReplicatedStorage;
             return PacketStorage;
         }
@@ -31,10 +31,10 @@ export default class PacketStorage {
      */
     static getSignalRemote(id: string | number, isUnreliable?: boolean) {
         let remote: RemoteEvent;
-        if (IS_SERVER || IS_EDIT) {
+        if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             remote = (new Instance(isUnreliable === true ? "UnreliableRemoteEvent" : "RemoteEvent") as BaseRemoteEvent) as RemoteEvent;
             remote.Name = tostring(id);
-            if (!IS_EDIT)
+            if (!Environment.IS_VIRTUAL)
                 remote.Parent = this.PACKET_STORAGE;
         }
         else {
@@ -50,10 +50,10 @@ export default class PacketStorage {
      */
     static getRequestRemote(id: string | number) {
         let remote: RemoteFunction;
-        if (IS_SERVER || IS_EDIT) {
+        if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             remote = new Instance("RemoteFunction");
             remote.Name = tostring(id);
-            if (!IS_EDIT)
+            if (!Environment.IS_VIRTUAL)
                 remote.Parent = this.PACKET_STORAGE;
         }
         else {

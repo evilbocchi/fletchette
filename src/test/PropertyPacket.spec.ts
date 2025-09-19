@@ -1,9 +1,9 @@
 /// <reference types="@rbxts/testez/globals" />
 
 import { DataType } from "@rbxts/flamework-binary-serializer";
-import { property } from "../PacketMacro";
-import { setVirtualState } from "../Environment";
 import { Players } from "@rbxts/services";
+import Environment from "../Environment";
+import { property } from "../PacketMacro";
 
 export = function () {
     describe("property", () => {
@@ -288,9 +288,11 @@ export = function () {
             const testData = { message: "test_message", timestamp: os.clock() };
 
             // Temporarily disable virtual state
-            setVirtualState(false);
+            Environment.setVirtualState(false);
+            expect(Environment.IS_VIRTUAL).to.equal(false);
             prop.set(testData);
-            setVirtualState(true);
+            Environment.setVirtualState(true);
+            expect(Environment.IS_VIRTUAL).to.equal(true);
 
             // Wait for the change to propagate
             let t = 0;
