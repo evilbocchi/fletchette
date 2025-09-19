@@ -9,7 +9,7 @@
         "dev": "concurrently \"npx rojo serve test.project.json\" \"rbxtsc -w --rojo test.project.json --type game\"",
         "test": "npm run build:test && run-in-roblox --script out/test/runTests.luau --place test.rbxlx",
         "docs": "npx typedoc",
-        "prepublishOnly": "npm run build & npm run docs"
+        "prepare": "npm run build:library & npm run docs"
     },
     "repository": {
         "type": "git",

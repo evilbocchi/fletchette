@@ -10,13 +10,19 @@ export default class PacketStorage {
      * PacketStorage folder in ReplicatedStorage.
      */
     static readonly PACKET_STORAGE = (() => {
+        const key = "FLETCHETTE_PACKET_STORAGE";
+        const cached = ReplicatedStorage.FindFirstChild(key);
+        if (cached) {
+            return cached as Folder;
+        }
+
         if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             const PacketStorage = new Instance("Folder");
-            PacketStorage.Name = "PacketStorage";
+            PacketStorage.Name = key;
             if (!Environment.IS_VIRTUAL) PacketStorage.Parent = ReplicatedStorage;
             return PacketStorage;
         } else {
-            return ReplicatedStorage.WaitForChild("PacketStorage") as Folder;
+            return ReplicatedStorage.WaitForChild(key) as Folder;
         }
     })();
 
@@ -26,6 +32,11 @@ export default class PacketStorage {
      * @param isUnreliable Whether the remote should be unreliable. Default is false.
      */
     static getSignalRemote(id: string | number, isUnreliable?: boolean) {
+        const cached = this.PACKET_STORAGE.FindFirstChild(id);
+        if (cached) {
+            return cached as RemoteEvent;
+        }
+
         let remote: RemoteEvent;
         if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             remote = new Instance(
@@ -44,6 +55,11 @@ export default class PacketStorage {
      * @param id Unique identifier for the remote
      */
     static getRequestRemote(id: string | number) {
+        const cached = this.PACKET_STORAGE.FindFirstChild(id);
+        if (cached) {
+            return cached as RemoteFunction;
+        }
+
         let remote: RemoteFunction;
         if (Environment.IS_SERVER || Environment.IS_VIRTUAL) {
             remote = new Instance("RemoteFunction");

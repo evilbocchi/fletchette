@@ -13,6 +13,15 @@ import SignalPacket from "./SignalPacket";
  */
 let i = 0;
 
+function getName(name?: string) {
+    if (!name) return tostring(++i);
+
+    if (name.size() > 50) {
+        name = name.sub(1, 50);
+    }
+    return `${name}_${++i}`;
+}
+
 /**
  * Create a SignalPacket. Metadata can be provided to specify how the data should be serialized.
  * @param isUnreliable Whether the signal should be unreliable. Default is false.
@@ -22,8 +31,9 @@ let i = 0;
 export function signal<T extends Callback = Callback>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
+    name?: Modding.Caller<"text">,
 ) {
-    return new SignalPacket<T>(tostring(++i), isUnreliable, meta);
+    return new SignalPacket<T>(getName(name), isUnreliable, meta);
 }
 
 /**
@@ -31,8 +41,11 @@ export function signal<T extends Callback = Callback>(
  * @param meta Metadata for serialization
  * @metadata macro
  */
-export function request<T extends Callback = Callback>(meta?: Modding.Many<SerializerMetadata<Parameters<T>>>) {
-    return new RequestPacket<Parameters<T>, ReturnType<T>, T>(tostring(++i), meta);
+export function request<T extends Callback = Callback>(
+    meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
+    name?: Modding.Caller<"text">,
+) {
+    return new RequestPacket<Parameters<T>, ReturnType<T>, T>(getName(name), meta);
 }
 
 /**
@@ -46,8 +59,9 @@ export function property<T>(
     initialValue?: T,
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
+    name?: Modding.Caller<"text">,
 ) {
-    return new PropertyPacket<T>(tostring(++i), initialValue, isUnreliable, meta);
+    return new PropertyPacket<T>(getName(name), initialValue, isUnreliable, meta);
 }
 
 type SignalOrRequestPacket<T extends Callback = Callback> =
@@ -63,12 +77,13 @@ type SignalOrRequestPacket<T extends Callback = Callback> =
 export function signalOrRequest<T extends Callback>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
+    name?: Modding.Caller<"text">,
     returnType?: Modding.Generic<ReturnType<T>, "text">,
 ): SignalOrRequestPacket<T> {
     if (returnType === "void" || returnType === undefined) {
-        return signal<T>(isUnreliable, meta) as unknown as SignalOrRequestPacket<T>;
+        return signal<T>(isUnreliable, meta, name) as unknown as SignalOrRequestPacket<T>;
     }
-    return request<T>(meta) as unknown as SignalOrRequestPacket<T>;
+    return request<T>(meta, name) as unknown as SignalOrRequestPacket<T>;
 }
 
 type Packet<T> = T extends Callback ? SignalOrRequestPacket<T> : PropertyPacket<T>;
@@ -86,6 +101,7 @@ type Packet<T> = T extends Callback ? SignalOrRequestPacket<T> : PropertyPacket<
 export function packet<T = unknown>(
     options?: { initialValue?: T; isUnreliable?: boolean },
     meta?: Modding.Many<SerializerMetadata<Parameters<T extends Callback ? T : (value: T) => void>>>,
+    name?: Modding.Caller<"text">,
     returnType?: Modding.Generic<ReturnType<T>, "text">,
 ): Packet<T> {
     if (options?.initialValue !== undefined || returnType === "never") {
@@ -93,12 +109,14 @@ export function packet<T = unknown>(
             options?.initialValue,
             options?.isUnreliable,
             meta as unknown as Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
+            name,
         ) as unknown as Packet<T>;
     }
 
     return signalOrRequest<T extends Callback ? T : never>(
         options?.isUnreliable,
         meta,
+        name,
         returnType,
     ) as unknown as Packet<T>;
 }
