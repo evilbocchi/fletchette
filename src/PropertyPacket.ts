@@ -2,8 +2,8 @@ import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
 import { Players } from "@rbxts/services";
-import SignalPacket from "./SignalPacket";
 import Environment from "./Environment";
+import SignalPacket from "./SignalPacket";
 
 /**
  * PropertyPacket is a wrapper around SignalPacket that provides a type-safe way to send data between server and client.
@@ -12,6 +12,7 @@ import Environment from "./Environment";
  * @typeParam T The type of the property
  */
 export default class PropertyPacket<T> {
+    readonly className = "PropertyPacket";
     /**
      * SignalPacket used to send the property
      */

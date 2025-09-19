@@ -49,3 +49,56 @@ export function property<T>(
 ) {
     return new PropertyPacket<T>(tostring(++i), initialValue, isUnreliable, meta);
 }
+
+type SignalOrRequestPacket<T extends Callback = Callback> =
+    ReturnType<T> extends void ? SignalPacket<T> : RequestPacket<Parameters<T>, ReturnType<T>, T>;
+/**
+ * Create a Packet that intelligently chooses between SignalPacket and RequestPacket based on the return type of T.
+ * If T returns void, creates a SignalPacket. Otherwise, creates a RequestPacket.
+ * @param isUnreliable Whether the signal should be unreliable. Default is false.
+ * @param meta Metadata for serialization
+ * @param returnType The return type of the callback. If "void" or undefined, a SignalPacket is created. Otherwise, a RequestPacket is created.
+ * @metadata macro
+ */
+export function signalOrRequest<T extends Callback>(
+    isUnreliable?: boolean,
+    meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
+    returnType?: Modding.Generic<ReturnType<T>, "text">,
+): SignalOrRequestPacket<T> {
+    if (returnType === "void" || returnType === undefined) {
+        return signal<T>(isUnreliable, meta) as unknown as SignalOrRequestPacket<T>;
+    }
+    return request<T>(meta) as unknown as SignalOrRequestPacket<T>;
+}
+
+type Packet<T> = T extends Callback ? SignalOrRequestPacket<T> : PropertyPacket<T>;
+
+/**
+ * Create a Packet that intelligently chooses between {@link signal},{@link request}, and
+ * {@link property} packets based on the type of T.
+ *
+ * @param options Object containing initialValue and isUnreliable
+ * @param meta Metadata for serialization
+ * @param returnType The return type of the callback. If "void" or undefined, a SignalPacket is created. Otherwise, a RequestPacket is created.
+ * @returns A Packet of type T
+ * @metadata macro
+ */
+export function packet<T = unknown>(
+    options?: { initialValue?: T; isUnreliable?: boolean },
+    meta?: Modding.Many<SerializerMetadata<Parameters<T extends Callback ? T : (value: T) => void>>>,
+    returnType?: Modding.Generic<ReturnType<T>, "text">,
+): Packet<T> {
+    if (options?.initialValue !== undefined || returnType === "never") {
+        return property<T>(
+            options?.initialValue,
+            options?.isUnreliable,
+            meta as unknown as Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
+        ) as unknown as Packet<T>;
+    }
+
+    return signalOrRequest<T extends Callback ? T : never>(
+        options?.isUnreliable,
+        meta,
+        returnType,
+    ) as unknown as Packet<T>;
+}

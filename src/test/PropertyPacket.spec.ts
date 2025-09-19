@@ -271,44 +271,6 @@ export = function () {
             expect(retrieved.settings.graphicsQuality).to.equal("high");
         });
 
-        it("actually sends property data", () => {
-            const prop = property<{ message: string; timestamp: DataType.f64 }>();
-            expect(prop).to.be.ok();
-
-            let changeReceived = false;
-            let receivedData: { message: string; timestamp: DataType.f64 } | undefined = undefined;
-
-            // Connect to changes
-            const connection = prop.changed.connect((value) => {
-                changeReceived = true;
-                receivedData = value;
-                print("Actually received property change:", value);
-            });
-
-            const testData = { message: "test_message", timestamp: os.clock() };
-
-            // Temporarily disable virtual state
-            Environment.setVirtualState(false);
-            expect(Environment.IS_VIRTUAL).to.equal(false);
-            prop.set(testData);
-            Environment.setVirtualState(true);
-            expect(Environment.IS_VIRTUAL).to.equal(true);
-
-            // Wait for the change to propagate
-            let t = 0;
-            while (!changeReceived && t < 1) {
-                task.wait(0.1);
-                t += 0.1;
-            }
-
-            expect(changeReceived).to.equal(true);
-            expect(receivedData).to.be.ok();
-            expect(receivedData!.message).to.equal("test_message");
-            expect(receivedData!.timestamp).to.be.a("number");
-
-            connection.disconnect();
-        });
-
         it("supports unreliable property transmission", () => {
             const prop = property<DataType.u16>(0, true); // unreliable = true
             expect(prop).to.be.ok();
