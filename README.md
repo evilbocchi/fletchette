@@ -17,6 +17,21 @@ A type-safe networking library for roblox-ts that simplifies client-server commu
 
 ## Installation
 
+[Flamework](https://flamework.fireboltofdeath.dev/docs/introduction/) is required to use Fletchette. This automatically sets up metadata for Fletchette packets.
+
+In `tsconfig.json`, add `rbxts-transform-flamework` to the `plugins` array:
+```json
+{
+  "compilerOptions": {
+    "plugins": [
+      { "transform": "rbxts-transform-flamework" }
+    ]
+  }
+}
+```
+
+Then, install Fletchette via npm:
+
 ```bash
 npm install @rbxts/fletchette
 ```
