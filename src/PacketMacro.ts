@@ -8,18 +8,19 @@ import PropertyPacket from "./PropertyPacket";
 import RequestPacket from "./RequestPacket";
 import SignalPacket from "./SignalPacket";
 
-/**
- * Basic incrementing ID for packets
- */
 let i = 0;
-
-function getName(name?: string) {
+const duplicateNames = new Set<string>();
+function generateName(name?: string) {
     if (!name) return tostring(++i);
 
     if (name.size() > 50) {
         name = name.sub(1, 50);
     }
-    return `${name}_${++i}`;
+    if (duplicateNames.has(name)) {
+        name = `${name}_${++i}`;
+    }
+    duplicateNames.add(name);
+    return name;
 }
 
 /**
@@ -33,7 +34,7 @@ export function signal<T extends Callback = Callback>(
     meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
     name?: Modding.Caller<"text">,
 ) {
-    return new SignalPacket<T>(getName(name), isUnreliable, meta);
+    return new SignalPacket<T>(generateName(name), isUnreliable, meta);
 }
 
 /**
@@ -45,7 +46,7 @@ export function request<T extends Callback = Callback>(
     meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
     name?: Modding.Caller<"text">,
 ) {
-    return new RequestPacket<Parameters<T>, ReturnType<T>, T>(getName(name), meta);
+    return new RequestPacket<Parameters<T>, ReturnType<T>, T>(generateName(name), meta);
 }
 
 /**
@@ -61,7 +62,7 @@ export function property<T>(
     meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
     name?: Modding.Caller<"text">,
 ) {
-    return new PropertyPacket<T>(getName(name), initialValue, isUnreliable, meta);
+    return new PropertyPacket<T>(generateName(name), initialValue, isUnreliable, meta);
 }
 
 type SignalOrRequestPacket<T extends Callback = Callback> =
