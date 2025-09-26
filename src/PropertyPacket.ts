@@ -216,13 +216,19 @@ export default class PropertyPacket<T> {
 
     /**
      * Returns the current value of the property.
-     * For the server, this will ignore the perPlayer map and return the value.
+     * @param player The player to get the value for. Does nothing on the client.
+     * @returns The current value of the property
      */
-    get() {
+    get(player?: Player) {
         if (Environment.IS_VIRTUAL) {
             const localPlayer = Players.LocalPlayer;
-            if (localPlayer === undefined) return this.value;
-            return this.perPlayer?.get(localPlayer) ?? this.value;
+            if (localPlayer !== undefined) {
+                player = localPlayer;
+            }
+            if (player === undefined) {
+                return this.value;
+            }
+            return this.perPlayer?.get(player) ?? this.value;
         }
 
         return this.value;
@@ -231,13 +237,12 @@ export default class PropertyPacket<T> {
     /**
      * Returns the value of the property for a specific player.
      * Should only be used on the server.
-     *
+     * @deprecated Use {@link get} instead.
      * @param player The player to get the value for
      * @returns The value of the property for the player
      */
     getFor(player: Player) {
-        const playerVal = this.perPlayer!.get(player);
-        return playerVal === undefined ? this.value : playerVal;
+        return this.get(player);
     }
 
     /**
