@@ -220,7 +220,9 @@ export default class PropertyPacket<T> {
      */
     get() {
         if (Environment.IS_VIRTUAL) {
-            return this.perPlayer?.get(Players.LocalPlayer) ?? this.value;
+            const localPlayer = Players.LocalPlayer;
+            if (localPlayer === undefined) return this.value;
+            return this.perPlayer?.get(localPlayer) ?? this.value;
         }
 
         return this.value;
