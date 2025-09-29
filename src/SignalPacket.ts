@@ -1,6 +1,7 @@
 import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
 import { Players } from "@rbxts/services";
+import AbstractPacket from "./AbstractPacket";
 import Environment from "./Environment";
 import PacketStorage from "./PacketStorage";
 
@@ -9,7 +10,7 @@ import PacketStorage from "./PacketStorage";
  *
  * @typeParam T The function signature for the signal
  */
-export default class SignalPacket<T> {
+export default class SignalPacket<T> extends AbstractPacket {
     readonly className = "SignalPacket";
     /**
      * Unique identifier for the signal
@@ -39,6 +40,7 @@ export default class SignalPacket<T> {
      * @param meta Metadata for serialization
      */
     constructor(id: string, isUnreliable?: boolean, meta?: Modding.Many<SerializerMetadata<Parameters<T>>>) {
+        super();
         this.id = id;
         this.serializer = createBinarySerializer<Parameters<T>>(meta);
         this.remoteEvent = PacketStorage.getSignalRemote(id, isUnreliable);

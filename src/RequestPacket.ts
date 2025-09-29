@@ -1,6 +1,7 @@
 import { Modding } from "@flamework/core";
 import { createBinarySerializer, Serializer, SerializerMetadata } from "@rbxts/flamework-binary-serializer";
 import { Players } from "@rbxts/services";
+import AbstractPacket from "./AbstractPacket";
 import Environment from "./Environment";
 import PacketStorage from "./PacketStorage";
 
@@ -12,7 +13,7 @@ import PacketStorage from "./PacketStorage";
  * @typeParam B The data being received by the request
  * @typeParam T The function signature for the request
  */
-export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B> {
+export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B> extends AbstractPacket {
     readonly className = "RequestPacket";
     /**
      * Unique identifier for the request
@@ -41,6 +42,7 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
      * @param meta Metadata for serialization
      */
     constructor(id: string, meta?: Modding.Many<SerializerMetadata<Parameters<T>>>) {
+        super();
         this.id = id;
         this.serializer = createBinarySerializer<Parameters<T>>(meta);
         this.remoteFunction = PacketStorage.getRequestRemote(id);

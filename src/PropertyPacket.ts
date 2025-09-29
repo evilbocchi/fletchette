@@ -2,6 +2,7 @@ import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
 import { Players } from "@rbxts/services";
+import AbstractPropertyPacket from "./AbstractPropertyPacket";
 import Environment from "./Environment";
 import SignalPacket from "./SignalPacket";
 
@@ -11,7 +12,7 @@ import SignalPacket from "./SignalPacket";
  *
  * @typeParam T The type of the property
  */
-export default class PropertyPacket<T> {
+export default class PropertyPacket<T> extends AbstractPropertyPacket<T> {
     readonly className = "PropertyPacket";
     /**
      * SignalPacket used to send the property
@@ -53,6 +54,7 @@ export default class PropertyPacket<T> {
         isUnreliable?: boolean,
         meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
     ) {
+        super();
         this.signalPacket = new SignalPacket<(value: T) => void>(id, isUnreliable === true, meta);
         if (initialValue !== undefined) this.value = initialValue;
 
@@ -135,21 +137,6 @@ export default class PropertyPacket<T> {
     }
 
     /**
-     * Sets the value of the property for players that pass the predicate.
-     * Should only be used on the server.
-     *
-     * @param predicate The predicate to filter players
-     * @param value The new value of the property
-     */
-    setFilter(predicate: (player: Player) => boolean, value: T) {
-        for (const player of Players.GetPlayers()) {
-            if (predicate(player)) {
-                this.setFor(player, value);
-            }
-        }
-    }
-
-    /**
      * Sets the value of the property for a specific player.
      * Should only be used on the server.
      *
@@ -165,19 +152,6 @@ export default class PropertyPacket<T> {
     }
 
     /**
-     * Sets the value of the property for a list of players.
-     * Should only be used on the server.
-     *
-     * @param players The list of players to set the value for
-     * @param value The new value of the property
-     */
-    setForList(players: Player[], value: T) {
-        for (const player of players) {
-            this.setFor(player, value);
-        }
-    }
-
-    /**
      * Clears the value of the property.
      * This will clear the perPlayer map and fire the signal to all players.
      * Should only be used on the server.
@@ -186,32 +160,6 @@ export default class PropertyPacket<T> {
         this.perPlayer!.set(player, undefined);
         if (this.sendVirtually()) return;
         this.signalPacket.toClient(player, this.value);
-    }
-
-    /**
-     * Clears the value of the property for a list of players.
-     * Should only be used on the server.
-     *
-     * @param players The list of players to clear the value for
-     */
-    clearForList(players: Player[]) {
-        for (const player of players) {
-            this.clearFor(player);
-        }
-    }
-
-    /**
-     * Clears the value of the property for players that pass the predicate.
-     * Should only be used on the server.
-     *
-     * @param predicate The predicate to filter players
-     */
-    clearFilter(predicate: (player: Player) => boolean) {
-        for (const player of Players.GetPlayers()) {
-            if (predicate(player)) {
-                this.clearFor(player);
-            }
-        }
     }
 
     /**
@@ -232,17 +180,6 @@ export default class PropertyPacket<T> {
         }
 
         return this.value;
-    }
-
-    /**
-     * Returns the value of the property for a specific player.
-     * Should only be used on the server.
-     * @deprecated Use {@link get} instead.
-     * @param player The player to get the value for
-     * @returns The value of the property for the player
-     */
-    getFor(player: Player) {
-        return this.get(player);
     }
 
     /**

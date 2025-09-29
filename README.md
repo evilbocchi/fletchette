@@ -14,6 +14,9 @@ A type-safe networking library for roblox-ts that simplifies client-server commu
   - `SignalPacket`: For one-way communication (like RemoteEvents)
   - `RequestPacket`: For request-response patterns (like RemoteFunctions)
   - `PropertyPacket`: For synchronizing properties between server and client
+  - `BatchedPropertyPacket`: For batching property updates over configurable intervals
+  - `ExactMapPropertyPacket`: For diff-synchronizing values that do not require deep equality checks
+  - `ShallowMapPropertyPacket`: For diff-synchronizing values that require first-level deep equality checks
 
 ## Installation
 
@@ -41,7 +44,16 @@ npm install @rbxts/fletchette
 ### Importing
 
 ```ts
-import { signal, request, property, packet } from "@rbxts/fletchette";
+import {
+  signal,
+  request,
+  property,
+  batchedProperty,
+  primitiveMapProperty,
+  shallowObjectMapProperty,
+  smartProperty,
+  packet,
+} from "@rbxts/fletchette";
 ```
 
 ### SignalPacket
@@ -125,6 +137,67 @@ playerHealth.observe((newHealth) => {
 });
 ```
 
+While sending the whole value on each update is simple and generally sufficient for 90% of use cases, Fletchette also provides specialized property packets for scenarios that demand more efficient synchronization.
+
+### BatchedPropertyPacket
+
+For synchronizing properties while coalescing rapid updates into batches:
+
+```ts
+// Shared code – batch updates every 100 ms with an initial value of 0
+const playerScore = batchedProperty<number>(100, 0);
+
+// Server code
+playerScore.set(1250); // Queued and broadcast after the next batch interval
+playerScore.setTop(1000); // Only players without overrides receive the new value
+
+// Client code
+playerScore.observe((score) => {
+  scoreLabel.Text = `Score: ${score}`;
+});
+```
+
+### ExactMapPropertyPacket
+
+For synchronizing `Map` values that have primitive keys and values, with clients receiving only diff payloads:
+
+```ts
+// Shared code – primitive map of player stats
+const playerStats = primitiveMapProperty<string, number>();
+
+// Server code
+playerStats.setEntry("kills", 5);      // Sends a single diff entry
+```
+
+### ShallowMapPropertyPacket
+
+For synchronizing maps whose values are shallow objects while sending minimal field-level diffs:
+
+```ts
+// Shared code – map of player loadouts
+const playerLoadouts = shallowObjectMapProperty<string, { weapon: string; ammo: number; shield: boolean }>();
+
+// Server code
+playerLoadouts.setEntry("player1", { weapon: "Pistol", ammo: 12, shield: false });
+playerLoadouts.patchEntry("player1", { ammo: 18 });       // Sends a patch diff with just the ammo change
+playerLoadouts.deleteFields("player1", ["shield"]);      // Sends a patch diff removing the shield field
+
+// Client code
+playerLoadouts.observe((snapshot, diff) => {
+  for (const change of diff.changes) {
+    if (change.type === "replace") {
+      print(`${change.key} loadout replaced`, change.value);
+    } else if (change.type === "patch") {
+      print(`${change.key} loadout patched`, change.sets, change.deletes);
+    } else {
+      print(`${change.key} loadout removed`);
+    }
+  }
+
+  updateLoadoutUI(snapshot);
+});
+```
+
 ### Smart Packet Creation
 
 The `packet` function automatically chooses the appropriate packet type based on your TypeScript types:
@@ -154,7 +227,12 @@ const playerPosition = packet({
   initialValue: new Vector3(0, 0, 0), 
   isUnreliable: true 
 });
+
+// Batched property with a 100 ms flush interval
+const leaderboardScore = packet<number>({ initialValue: 0, batchIntervalMs: 100 });
 ```
+
+It is not recommended to use `packet` for properties that require specialized diffing behavior, such as `primitiveMapProperty` or `shallowObjectMapProperty`.
 
 ## Advanced Features
 
