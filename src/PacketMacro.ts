@@ -6,14 +6,20 @@ import { Modding } from "@flamework/core/out/modding";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer";
 import BatchedPropertyPacket from "./BatchedPropertyPacket";
 import ExactMapPropertyPacket, { ExactMapDiffPayload } from "./ExactMapPropertyPacket";
+import ExactSetPropertyPacket, { ExactSetDiffPayload } from "./ExactSetPropertyPacket";
 import PropertyPacket from "./PropertyPacket";
 import RequestPacket from "./RequestPacket";
 import ShallowMapPropertyPacket, { ShallowObject, ShallowObjectMapDiffPayload } from "./ShallowMapPropertyPacket";
 import SignalPacket from "./SignalPacket";
 
+type InferSetValue<T> = T extends Set<infer V> ? V : never;
+
 export type SignalOrRequestPacket<T extends Callback = Callback> =
     ReturnType<T> extends void ? SignalPacket<T> : RequestPacket<Parameters<T>, ReturnType<T>, T>;
-export type PropertyLikePacket<T> = PropertyPacket<T> | BatchedPropertyPacket<T>;
+export type PropertyLikePacket<T> =
+    | PropertyPacket<T>
+    | BatchedPropertyPacket<T>
+    | (T extends Set<infer V> ? ExactSetPropertyPacket<V> : never);
 
 let i = 0;
 const duplicateNames = new Set<string>();
@@ -109,6 +115,23 @@ export function exactMapProperty<K, V>(
 }
 
 /**
+ * Create an ExactSetPropertyPacket, where updates are diff-based and only track membership changes.
+ * Metadata can be provided to specify how the data should be serialized.
+ * @param initialValues Initial set values to populate the property with
+ * @param isUnreliable Whether the property should be unreliable. Default is false.
+ * @param meta Metadata for the serializer
+ * @metadata macro
+ */
+export function exactSetProperty<T>(
+    initialValues?: Set<T>,
+    isUnreliable?: boolean,
+    meta?: Modding.Many<SerializerMetadata<Parameters<(payload: ExactSetDiffPayload<T>) => void>>>,
+    name?: Modding.Caller<"text">,
+) {
+    return new ExactSetPropertyPacket<T>(generateName(name), initialValues, isUnreliable, meta);
+}
+
+/**
  * Create a ShallowMapPropertyPacket, where updates are diff-based and only the first level
  * of object values are checked for changes with strict equality (===).
  * Metadata can be provided to specify how the data should be serialized.
@@ -171,6 +194,23 @@ export function packet<T = unknown>(
                 options.initialValue,
                 options.isUnreliable,
                 meta as unknown as Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
+                name,
+            ) as unknown as Packet<T>;
+        }
+
+        const inner = meta?.[1];
+        if (
+            inner !== undefined &&
+            typeIs(inner, "table") &&
+            typeIs((inner as [unknown])[0], "table") &&
+            ((inner as Array<[unknown]>)[0] as [unknown])[0] === "set"
+        ) {
+            return exactSetProperty<InferSetValue<T>>(
+                options?.initialValue as unknown as Set<InferSetValue<T>> | undefined,
+                options?.isUnreliable,
+                meta as unknown as Modding.Many<
+                    SerializerMetadata<Parameters<(payload: ExactSetDiffPayload<InferSetValue<T>>) => void>>
+                >,
                 name,
             ) as unknown as Packet<T>;
         }

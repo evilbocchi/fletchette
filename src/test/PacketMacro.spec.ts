@@ -28,5 +28,33 @@ export = function () {
             expect(test.className).to.equal("PropertyPacket");
             expect(test.get()).to.equal(5);
         });
+
+        it("creates an ExactSetPropertyPacket with a primitive", () => {
+            const initialValues = new Set<string>();
+            initialValues.add("coins");
+
+            const test = packet<Set<string>>({ initialValue: initialValues });
+            expect(test).to.be.ok();
+            expect(test.className).to.equal("ExactSetPropertyPacket");
+
+            const snapshot = test.get();
+            expect(snapshot).to.be.ok();
+            expect(snapshot.has("coins")).to.equal(true);
+        });
+
+        it("creates an ExactSetPropertyPacket with a non-primitive", () => {
+            type TestType = { id: number; name: string };
+            const initialValues = new Set<TestType>();
+            const value = { id: 1, name: "coins" };
+            initialValues.add(value);
+
+            const test = packet<Set<TestType>>({ initialValue: initialValues });
+            expect(test).to.be.ok();
+            expect(test.className).to.equal("ExactSetPropertyPacket");
+
+            const snapshot = test.get();
+            expect(snapshot).to.be.ok();
+            expect(snapshot.has(value)).to.equal(true);
+        });
     });
 };

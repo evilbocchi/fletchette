@@ -1,10 +1,12 @@
 export { default as BatchedPropertyPacket } from "./BatchedPropertyPacket";
 export { default as ExactMapPropertyPacket } from "./ExactMapPropertyPacket";
+export { default as ExactSetPropertyPacket } from "./ExactSetPropertyPacket";
 export {
     batchedProperty,
     packet,
     exactMapProperty as primitiveMapProperty,
     exactMapProperty,
+    exactSetProperty,
     property,
     PropertyLikePacket,
     request,
