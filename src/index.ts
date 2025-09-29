@@ -3,11 +3,11 @@ export { default as ExactMapPropertyPacket } from "./ExactMapPropertyPacket";
 export {
     batchedProperty,
     packet,
-    exactMapProperty as primitiveMapProperty,
+    exactMapProperty,
     property,
     PropertyLikePacket,
     request,
-    shallowMapProperty as shallowObjectMapProperty,
+    shallowMapProperty,
     signal,
     SignalOrRequestPacket,
 } from "./PacketMacro";
