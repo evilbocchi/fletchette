@@ -116,9 +116,6 @@ export default class RequestPacket<V, B, T extends (...args: Parameters<V>) => B
             handler(player, ...this.serializer.deserialize(buffer as buffer, blobs as defined[]));
     }
 
-    /**
-     * Destroys the request and cleans up any resources.
-     */
     destroy() {
         this.remoteFunction?.Destroy();
         table.clear(this);

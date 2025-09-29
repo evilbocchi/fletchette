@@ -203,9 +203,6 @@ export default class SignalPacket<T> extends AbstractPacket {
         );
     }
 
-    /**
-     * Destroys the signal and cleans up any resources.
-     */
     destroy() {
         this.virtualClientHandlers?.clear();
         this.virtualServerHandlers?.clear();

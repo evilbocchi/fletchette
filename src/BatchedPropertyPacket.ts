@@ -345,10 +345,6 @@ export default class BatchedPropertyPacket<T> extends AbstractPropertyPacket<T> 
         return this.changed.connect((value) => handler(value));
     }
 
-    /**
-     * Disconnects all connections and destroys the remote event.
-     * Should be called when the property is no longer needed to prevent memory leaks.
-     */
     destroy() {
         if (this.pendingFlush) {
             task.cancel(this.pendingFlush);

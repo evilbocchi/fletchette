@@ -2,7 +2,7 @@ import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
 import { Players } from "@rbxts/services";
-import AbstractPropertyPacket from "./AbstractPropertyPacket";
+import AbstractMapPropertyPacket from "./AbstractMapPropertyPacket";
 import Environment from "./Environment";
 import SignalPacket from "./SignalPacket";
 
@@ -83,7 +83,7 @@ function cloneMap<K, V extends ShallowObject>(map: Map<K, V>): Map<K, V> {
 /**
  * ShallowMapPropertyPacket synchronizes a map of primitive keys to shallow object values using diff-based updates.
  */
-export default class ShallowMapPropertyPacket<K, V extends ShallowObject> extends AbstractPropertyPacket<Map<K, V>> {
+export default class ShallowMapPropertyPacket<K, V extends ShallowObject> extends AbstractMapPropertyPacket<K, V> {
     readonly className = "ShallowMapPropertyPacket";
     readonly signalPacket: SignalPacket<(payload: DiffPayload<K, V>) => void>;
 
@@ -330,6 +330,21 @@ export default class ShallowMapPropertyPacket<K, V extends ShallowObject> extend
         this.dispatch({ full: false, changes: [{ type: EntryChangeType.Replace, key, value: cloneObject(cloned) }] });
     }
 
+    setEntries(entries: Map<K, V>) {
+        const changes = new Array<DiffChange<K, V>>();
+        for (const [key, value] of entries) {
+            const cloned = cloneObject(value);
+            this.state.set(key, cloned);
+            changes.push({ type: EntryChangeType.Replace, key, value: cloneObject(cloned) });
+        }
+
+        if (changes.isEmpty()) {
+            return;
+        }
+
+        this.dispatch({ full: false, changes });
+    }
+
     patchEntry(key: K, patch: Partial<V>, deletes?: Array<keyof V & string>) {
         const current = this.state.get(key);
         if (!current) {
@@ -379,10 +394,11 @@ export default class ShallowMapPropertyPacket<K, V extends ShallowObject> extend
 
     deleteEntry(key: K) {
         if (!this.state.has(key)) {
-            return;
+            return false;
         }
         this.state.delete(key);
         this.dispatch({ full: false, changes: [{ type: EntryChangeType.Delete, key }] });
+        return true;
     }
 
     clear() {

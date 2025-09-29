@@ -2,7 +2,7 @@ import Signal from "@antivivi/lemon-signal";
 import { Modding } from "@flamework/core";
 import { SerializerMetadata } from "@rbxts/flamework-binary-serializer/out/metadata";
 import { Players } from "@rbxts/services";
-import AbstractPropertyPacket from "./AbstractPropertyPacket";
+import AbstractMapPropertyPacket from "./AbstractMapPropertyPacket";
 import Environment from "./Environment";
 import SignalPacket from "./SignalPacket";
 
@@ -52,7 +52,7 @@ function cloneMap<K, V>(map: Map<K, V>): Map<K, V> {
  * ExactMapPropertyPacket synchronizes a map using diff-based updates, where update checks
  * are based on exact equality of values.
  */
-export default class ExactMapPropertyPacket<K, V> extends AbstractPropertyPacket<Map<K, V>> {
+export default class ExactMapPropertyPacket<K, V> extends AbstractMapPropertyPacket<K, V> {
     readonly className = "ExactMapPropertyPacket";
     readonly signalPacket: SignalPacket<(payload: DiffPayload<K, V>) => void>;
 
@@ -165,16 +165,10 @@ export default class ExactMapPropertyPacket<K, V> extends AbstractPropertyPacket
         }
     }
 
-    /**
-     * Returns a new Map snapshot of the current state.
-     */
     getSnapshot() {
         return this.snapshot();
     }
 
-    /**
-     * Retrieves the value for a specific key.
-     */
     getEntry(key: K) {
         return this.state.get(key);
     }
@@ -206,9 +200,6 @@ export default class ExactMapPropertyPacket<K, V> extends AbstractPropertyPacket
         return this.snapshot();
     }
 
-    /**
-     * Replaces the entire map with the provided entries, sending only the computed diff to clients.
-     */
     set(entries: Map<K, V>) {
         const changes: Array<DiffChange<K, V>> = [];
 
@@ -266,9 +257,6 @@ export default class ExactMapPropertyPacket<K, V> extends AbstractPropertyPacket
         this.dispatchToPlayer(player, { full: false, changes });
     }
 
-    /**
-     * Sets a single entry in the map.
-     */
     setEntry(key: K, value: V) {
         if (this.state.get(key) === value) {
             return;
@@ -278,21 +266,33 @@ export default class ExactMapPropertyPacket<K, V> extends AbstractPropertyPacket
         this.dispatch({ full: false, changes: [{ type: DiffChangeType.Set, key, value }] });
     }
 
-    /**
-     * Removes an entry from the map if present.
-     */
+    setEntries(entries: Map<K, V>) {
+        const changes: Array<DiffChange<K, V>> = [];
+
+        for (const [key, value] of entries) {
+            if (this.state.get(key) !== value) {
+                changes.push({ type: DiffChangeType.Set, key, value });
+                this.state.set(key, value);
+            }
+        }
+
+        if (changes.isEmpty()) {
+            return;
+        }
+
+        this.dispatch({ full: false, changes });
+    }
+
     deleteEntry(key: K) {
         if (!this.state.has(key)) {
-            return;
+            return false;
         }
 
         this.state.delete(key);
         this.dispatch({ full: false, changes: [{ type: DiffChangeType.Delete, key }] });
+        return true;
     }
 
-    /**
-     * Clears the map.
-     */
     clear() {
         if (this.state.isEmpty()) {
             return;
@@ -337,9 +337,6 @@ export default class ExactMapPropertyPacket<K, V> extends AbstractPropertyPacket
         return this.changed.connect((snapshot, diff) => handler(cloneMap(snapshot), cloneDiff(diff)));
     }
 
-    /**
-     * Destroys the packet and cleans up resources.
-     */
     destroy() {
         if (this.playerRemoving !== undefined) {
             this.playerRemoving.Disconnect();

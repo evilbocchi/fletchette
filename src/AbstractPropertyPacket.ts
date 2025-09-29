@@ -3,6 +3,11 @@ import { Players } from "@rbxts/services";
 import AbstractPacket from "./AbstractPacket";
 
 export default abstract class AbstractPropertyPacket<T> extends AbstractPacket {
+    /**
+     * Sets the value of the property for all players.
+     * Should only be used on the server.
+     * @param value The new value of the property
+     */
     abstract set(value: T): void;
 
     /**
@@ -20,6 +25,11 @@ export default abstract class AbstractPropertyPacket<T> extends AbstractPacket {
         }
     }
 
+    /**
+     * Sets the value of the property for a specific player.
+     * @param player The player to set the value for
+     * @param value The new value of the property
+     */
     abstract setFor(player: Player, value: T): void;
 
     /**
