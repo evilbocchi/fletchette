@@ -167,6 +167,7 @@ const playerStats = primitiveMapProperty<string, number>();
 
 // Server code
 playerStats.setEntry("kills", 5);      // Sends a single diff entry
+playerStats.set(new Map([["deaths", 2]])); // Sends a full replace diff
 ```
 
 ### ShallowMapPropertyPacket
@@ -181,6 +182,7 @@ const playerLoadouts = shallowObjectMapProperty<string, { weapon: string; ammo: 
 playerLoadouts.setEntry("player1", { weapon: "Pistol", ammo: 12, shield: false });
 playerLoadouts.patchEntry("player1", { ammo: 18 });       // Sends a patch diff with just the ammo change
 playerLoadouts.deleteFields("player1", ["shield"]);      // Sends a patch diff removing the shield field
+playerLoadouts.set(new Map([["player2", { weapon: "Rifle", ammo: 30, shield: true }]])); // Sends a full replace diff
 
 // Client code
 playerLoadouts.observe((snapshot, diff) => {
@@ -197,6 +199,8 @@ playerLoadouts.observe((snapshot, diff) => {
   updateLoadoutUI(snapshot);
 });
 ```
+
+## Advanced Features
 
 ### Smart Packet Creation
 
@@ -233,8 +237,6 @@ const leaderboardScore = packet<number>({ initialValue: 0, batchIntervalMs: 100 
 ```
 
 It is not recommended to use `packet` for properties that require specialized diffing behavior, such as `primitiveMapProperty` or `shallowObjectMapProperty`.
-
-## Advanced Features
 
 ### Area-Based Communication
 
