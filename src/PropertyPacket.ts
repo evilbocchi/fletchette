@@ -176,6 +176,9 @@ export default class PropertyPacket<T> extends AbstractPropertyPacket<T> {
             if (player === undefined) {
                 return this.value;
             }
+        }
+
+        if (player !== undefined) {
             return this.perPlayer?.get(player) ?? this.value;
         }
 
