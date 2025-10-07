@@ -1,6 +1,6 @@
 {
     "name": "@rbxts/fletchette",
-    "version": "4.4.3",
+    "version": "4.4.4",
     "description": "Simple networking library for roblox-ts.",
     "main": "out/init.lua",
     "scripts": {
