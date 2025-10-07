@@ -1,17 +1,18 @@
 export { default as BatchedPropertyPacket } from "./BatchedPropertyPacket";
+export { default as FletchetteEnvironment } from "./Environment";
 export { default as ExactMapPropertyPacket } from "./ExactMapPropertyPacket";
 export { default as ExactSetPropertyPacket } from "./ExactSetPropertyPacket";
 export {
     batchedProperty,
-    packet,
-    exactMapProperty as primitiveMapProperty,
     exactMapProperty,
     exactSetProperty,
+    packet,
+    exactMapProperty as primitiveMapProperty,
     property,
     PropertyLikePacket,
     request,
-    shallowMapProperty as shallowObjectMapProperty,
     shallowMapProperty,
+    shallowMapProperty as shallowObjectMapProperty,
     signal,
     SignalOrRequestPacket,
 } from "./PacketMacro";
