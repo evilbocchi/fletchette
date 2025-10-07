@@ -1,6 +1,6 @@
 import { RunService } from "@rbxts/services";
 
-class Environment {
+export default class Environment {
     /**
      * Whether the current environment is server.
      */
@@ -23,5 +23,3 @@ class Environment {
         this.IS_VIRTUAL = value;
     }
 }
-
-export = Environment;
