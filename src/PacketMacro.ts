@@ -23,14 +23,14 @@ export type PropertyLikePacket<T> =
 
 let i = 0;
 const duplicateNames = new Set<string>();
-function generateName(name?: string) {
+function generateName(name?: string, uuid?: string) {
     if (!name) return tostring(++i);
 
     if (name.size() > 50) {
         name = name.sub(1, 50);
     }
     if (duplicateNames.has(name)) {
-        name = `${name}_${++i}`;
+        name = `${name}_${uuid ?? ++i}`;
     }
     duplicateNames.add(name);
     return name;
@@ -46,8 +46,9 @@ export function signal<T extends Callback = Callback>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
 ) {
-    return new SignalPacket<T>(generateName(name), isUnreliable, meta);
+    return new SignalPacket<T>(generateName(name, uuid), isUnreliable, meta);
 }
 
 /**
@@ -58,8 +59,9 @@ export function signal<T extends Callback = Callback>(
 export function request<T extends Callback = Callback>(
     meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
 ) {
-    return new RequestPacket<Parameters<T>, ReturnType<T>, T>(generateName(name), meta);
+    return new RequestPacket<Parameters<T>, ReturnType<T>, T>(generateName(name, uuid), meta);
 }
 
 /**
@@ -74,8 +76,9 @@ export function property<T>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
 ) {
-    return new PropertyPacket<T>(generateName(name), initialValue, isUnreliable, meta);
+    return new PropertyPacket<T>(generateName(name, uuid), initialValue, isUnreliable, meta);
 }
 
 /**
@@ -92,8 +95,9 @@ export function batchedProperty<T>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<(value: T) => void>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
 ) {
-    return new BatchedPropertyPacket<T>(generateName(name), batchIntervalMs, initialValue, isUnreliable, meta);
+    return new BatchedPropertyPacket<T>(generateName(name, uuid), batchIntervalMs, initialValue, isUnreliable, meta);
 }
 
 /**
@@ -110,8 +114,9 @@ export function exactMapProperty<K, V>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<(payload: ExactMapDiffPayload<K, V>) => void>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
 ) {
-    return new ExactMapPropertyPacket<K, V>(generateName(name), initialEntries, isUnreliable, meta);
+    return new ExactMapPropertyPacket<K, V>(generateName(name, uuid), initialEntries, isUnreliable, meta);
 }
 
 /**
@@ -127,8 +132,9 @@ export function exactSetProperty<T>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<(payload: ExactSetDiffPayload<T>) => void>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
 ) {
-    return new ExactSetPropertyPacket<T>(generateName(name), initialValues, isUnreliable, meta);
+    return new ExactSetPropertyPacket<T>(generateName(name, uuid), initialValues, isUnreliable, meta);
 }
 
 /**
@@ -145,8 +151,9 @@ export function shallowMapProperty<K, V extends ShallowObject>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<(payload: ShallowObjectMapDiffPayload<K, V>) => void>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
 ) {
-    return new ShallowMapPropertyPacket<K, V>(generateName(name), initialEntries, isUnreliable, meta);
+    return new ShallowMapPropertyPacket<K, V>(generateName(name, uuid), initialEntries, isUnreliable, meta);
 }
 
 /**
@@ -161,12 +168,13 @@ export function signalOrRequest<T extends Callback>(
     isUnreliable?: boolean,
     meta?: Modding.Many<SerializerMetadata<Parameters<T>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
     returnType?: Modding.Generic<ReturnType<T>, "text">,
 ): SignalOrRequestPacket<T> {
     if (returnType === "void" || returnType === undefined) {
-        return signal<T>(isUnreliable, meta, name) as unknown as SignalOrRequestPacket<T>;
+        return signal<T>(isUnreliable, meta, name, uuid) as unknown as SignalOrRequestPacket<T>;
     }
-    return request<T>(meta, name) as unknown as SignalOrRequestPacket<T>;
+    return request<T>(meta, name, uuid) as unknown as SignalOrRequestPacket<T>;
 }
 
 type Packet<T> = T extends Callback ? SignalOrRequestPacket<T> : PropertyLikePacket<T>;
@@ -185,6 +193,7 @@ export function packet<T = unknown>(
     options?: { initialValue?: T; isUnreliable?: boolean; batchIntervalMs?: number },
     meta?: Modding.Many<SerializerMetadata<Parameters<T extends Callback ? T : (value: T) => void>>>,
     name?: Modding.Caller<"text">,
+    uuid?: Modding.Caller<"uuid">,
     returnType?: Modding.Generic<ReturnType<T>, "text">,
 ): Packet<T> {
     if (options?.initialValue !== undefined || options?.batchIntervalMs !== undefined || returnType === "never") {
@@ -226,6 +235,7 @@ export function packet<T = unknown>(
         options?.isUnreliable,
         meta,
         name,
+        uuid,
         returnType,
     ) as unknown as Packet<T>;
 }
