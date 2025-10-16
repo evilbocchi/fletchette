@@ -44,17 +44,26 @@ export default abstract class AbstractMapPropertyPacket<K, V> extends AbstractPr
     abstract setEntry(key: K, value: V): void;
 
     /**
-     * Sets multiple entries in the map, keeping existing entries intact.
-     * @param entries The entries to set in the map.
-     */
-    abstract setEntries(entries: Map<K, V>): void;
-
-    /**
      * Removes an entry from the map if present.
      * @param key The key of the entry to remove.
      * @return True if the entry was present and removed, false otherwise.
      */
     abstract deleteEntry(key: K): boolean;
+
+    /**
+     * Sets and deletes multiple entries in a single operation.
+     * @param entriesToSet The entries to set in the map.
+     * @param keysToDelete The keys to delete from the map.
+     */
+    abstract setAndDeleteEntries(entriesToSet?: Map<K, V>, keysToDelete?: Set<K>): void;
+
+    /**
+     * Sets multiple entries in the map, keeping existing entries intact.
+     * @param entries The entries to set in the map.
+     */
+    setEntries(entries: Map<K, V>) {
+        return this.setAndDeleteEntries(entries);
+    }
 
     /**
      * Clears the map.

@@ -293,6 +293,34 @@ export default class ExactMapPropertyPacket<K, V> extends AbstractMapPropertyPac
         return true;
     }
 
+    setAndDeleteEntries(entriesToSet?: Map<K, V>, keysToDelete?: Set<K>) {
+        const changes: Array<DiffChange<K, V>> = [];
+
+        if (entriesToSet !== undefined) {
+            for (const [key, value] of entriesToSet) {
+                if (this.state.get(key) !== value) {
+                    changes.push({ type: DiffChangeType.Set, key, value });
+                    this.state.set(key, value);
+                }
+            }
+        }
+
+        if (keysToDelete !== undefined) {
+            for (const key of keysToDelete) {
+                if (this.state.has(key)) {
+                    changes.push({ type: DiffChangeType.Delete, key });
+                    this.state.delete(key);
+                }
+            }
+        }
+
+        if (changes.isEmpty()) {
+            return;
+        }
+
+        this.dispatch({ full: false, changes });
+    }
+
     clear() {
         if (this.state.isEmpty()) {
             return;

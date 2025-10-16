@@ -330,12 +330,24 @@ export default class ShallowMapPropertyPacket<K, V extends ShallowObject> extend
         this.dispatch({ full: false, changes: [{ type: EntryChangeType.Replace, key, value: cloneObject(cloned) }] });
     }
 
-    setEntries(entries: Map<K, V>) {
+    setAndDeleteEntries(entries?: Map<K, V>, keysToDelete?: Set<K>) {
         const changes = new Array<DiffChange<K, V>>();
-        for (const [key, value] of entries) {
-            const cloned = cloneObject(value);
-            this.state.set(key, cloned);
-            changes.push({ type: EntryChangeType.Replace, key, value: cloneObject(cloned) });
+
+        if (entries !== undefined) {
+            for (const [key, value] of entries) {
+                const cloned = cloneObject(value);
+                this.state.set(key, cloned);
+                changes.push({ type: EntryChangeType.Replace, key, value: cloneObject(cloned) });
+            }
+        }
+
+        if (keysToDelete !== undefined) {
+            for (const key of keysToDelete) {
+                if (this.state.has(key)) {
+                    this.state.delete(key);
+                    changes.push({ type: EntryChangeType.Delete, key });
+                }
+            }
         }
 
         if (changes.isEmpty()) {
